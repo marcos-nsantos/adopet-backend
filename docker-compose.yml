@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: adopet-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: adopet
+    ports:
+      - "5432:5432"
+
+  api:
+    build: .
+    container_name: adopet-api
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/adopet
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
