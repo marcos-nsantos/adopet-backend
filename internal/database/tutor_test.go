@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
@@ -18,12 +19,15 @@ func TestCreateTutor(t *testing.T) {
 
 	tutor := mock.Tutors()[0]
 	t.Run("should create a tutor", func(t *testing.T) {
-		err := CreateTutor(&tutor)
+		tutorCreated, err := CreateTutor(tutor)
 		require.NoError(t, err)
+		assert.NotEmpty(t, tutorCreated.ID)
+		assert.NotEmpty(t, tutorCreated.CreatedAt)
+		fmt.Println(tutorCreated)
 	})
 
 	t.Run("should not create a tutor when email is already in use", func(t *testing.T) {
-		err := CreateTutor(&tutor)
+		_, err := CreateTutor(tutor)
 		require.Error(t, err)
 	})
 }
@@ -37,20 +41,20 @@ func TestGetTutorByID(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	err := CreateTutor(&tutor)
+	tutorCreated, err := CreateTutor(tutor)
 	require.NoError(t, err)
 
 	t.Run("should get a tutor by id", func(t *testing.T) {
-		tutorFound, err := GetTutorByID(tutor.ID)
+		tutorFound, err := GetTutorByID(tutorCreated.ID)
 		require.NoError(t, err)
-		assert.Equal(t, tutor.ID, tutorFound.ID)
-		assert.Equal(t, tutor.Name, tutorFound.Name)
-		assert.Equal(t, tutor.Email, tutorFound.Email)
+		assert.Equal(t, tutorCreated.ID, tutorFound.ID)
+		assert.Equal(t, tutorCreated.Name, tutorFound.Name)
+		assert.Equal(t, tutorCreated.Email, tutorFound.Email)
 		assert.Empty(t, tutorFound.Password)
-		assert.Equal(t, tutor.Phone, tutorFound.Phone)
-		assert.Equal(t, tutor.Photo, tutorFound.Photo)
-		assert.Equal(t, tutor.City, tutorFound.City)
-		assert.Equal(t, tutor.About, tutorFound.About)
+		assert.Equal(t, tutorCreated.Phone, tutorFound.Phone)
+		assert.Equal(t, tutorCreated.Photo, tutorFound.Photo)
+		assert.Equal(t, tutorCreated.City, tutorFound.City)
+		assert.Equal(t, tutorCreated.About, tutorFound.About)
 		assert.Empty(t, tutorFound.DeletedAt)
 	})
 
@@ -138,8 +142,7 @@ func TestDeleteTutor(t *testing.T) {
 		DropTables()
 	})
 
-	tutor := mock.Tutors()[0]
-	err := CreateTutor(&tutor)
+	tutor, err := CreateTutor(mock.Tutors()[0])
 	require.NoError(t, err)
 
 	t.Run("should delete a tutor", func(t *testing.T) {

@@ -1,9 +1,12 @@
 package database
 
-import "github.com/marcos-nsantos/adopet-backend/internal/entity"
+import (
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
+)
 
-func CreateTutor(tutor *entity.Tutor) error {
-	return DB.Create(tutor).Error
+func CreateTutor(tutor entity.Tutor) (entity.Tutor, error) {
+	result := DB.Create(&tutor)
+	return tutor, result.Error
 }
 
 func GetTutorByID(id uint64) (entity.Tutor, error) {

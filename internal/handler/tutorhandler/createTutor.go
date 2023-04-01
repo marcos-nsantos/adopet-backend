@@ -15,10 +15,10 @@ func CreateTutor(c *gin.Context) {
 		return
 	}
 
-	tutor := req.ToEntity()
-	if err := database.CreateTutor(tutor); err != nil {
-		errMessage := fmt.Errorf("email %s is already in use", tutor.Email)
-		c.JSON(http.StatusConflict, gin.H{"error": errMessage.Error()})
+	tutor, err := database.CreateTutor(req.ToEntity())
+	if err != nil {
+		errMessage := fmt.Sprintf("email %s already exists", req.Email)
+		c.JSON(http.StatusBadRequest, gin.H{"error": errMessage})
 		return
 	}
 
