@@ -14,6 +14,7 @@ func SetupRoutes() *gin.Engine {
 		tutors.GET("/:id", tutorhandler.GetTutorByID)
 		tutors.GET("", tutorhandler.GetAllTutors)
 		tutors.PUT("/:id", tutorhandler.UpdateTutor)
+		tutors.DELETE("/:id", tutorhandler.DeleteTutor)
 	}
 
 	return r
