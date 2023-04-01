@@ -129,3 +129,24 @@ func TestUpdateTutor(t *testing.T) {
 		require.Error(t, err)
 	})
 }
+
+func TestDeleteTutor(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	tutor := mock.Tutors()[0]
+	err := CreateTutor(&tutor)
+	require.NoError(t, err)
+
+	t.Run("should delete a tutor", func(t *testing.T) {
+		err := DeleteTutor(tutor.ID)
+		require.NoError(t, err)
+
+		_, err = GetTutorByID(tutor.ID)
+		assert.Error(t, err)
+	})
+}

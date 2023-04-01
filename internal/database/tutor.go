@@ -26,3 +26,7 @@ func GetAllTutors(page, limit int) ([]entity.Tutor, int, error) {
 func UpdateTutor(tutor *entity.Tutor) error {
 	return DB.Model(&tutor).Omit("id", "password").Save(tutor).Error
 }
+
+func DeleteTutor(id uint64) error {
+	return DB.Delete(&entity.Tutor{}, id).Error
+}
