@@ -12,8 +12,8 @@ type TutorResponse struct {
 	About string `json:"about"`
 }
 
-func toTutorResponse(tutor *entity.Tutor) *TutorResponse {
-	return &TutorResponse{
+func toTutorResponse(tutor entity.Tutor) TutorResponse {
+	return TutorResponse{
 		ID:    tutor.ID,
 		Name:  tutor.Name,
 		Email: tutor.Email,

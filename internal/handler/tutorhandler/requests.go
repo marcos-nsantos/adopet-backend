@@ -12,8 +12,8 @@ type TutorRequest struct {
 	About    string `json:"about"`
 }
 
-func (t *TutorRequest) ToEntity() *entity.Tutor {
-	return &entity.Tutor{
+func (t *TutorRequest) ToEntity() entity.Tutor {
+	return entity.Tutor{
 		Name:     t.Name,
 		Email:    t.Email,
 		Password: t.Password,
