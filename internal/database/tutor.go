@@ -22,3 +22,7 @@ func GetAllTutors(page, limit int) ([]entity.Tutor, int, error) {
 	result := DB.Omit("password", "deleted_at").Limit(limit).Offset(offset).Find(&tutors)
 	return tutors, int(total), result.Error
 }
+
+func UpdateTutor(tutor *entity.Tutor) error {
+	return DB.Model(&tutor).Omit("id", "password").Save(tutor).Error
+}

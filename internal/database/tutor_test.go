@@ -85,3 +85,47 @@ func TestGetAllTutors(t *testing.T) {
 		assert.Len(t, tutorsFound, 2)
 	})
 }
+
+func TestUpdateTutor(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	tutors := mock.Tutors()
+	DB.CreateInBatches(tutors, len(tutors))
+
+	t.Run("should update a tutor", func(t *testing.T) {
+		tutor := tutors[0]
+		tutor.Name = "Tutor One Updated"
+		tutor.Email = "tutoroneupdate@email.com"
+		tutor.Phone = "99999999999"
+		tutor.Photo = "https://www.alura.com.br"
+		tutor.City = "Rio de Janeiro"
+		tutor.About = "I am a tutor updated"
+
+		err := UpdateTutor(&tutor)
+		require.NoError(t, err)
+
+		tutorFound, err := GetTutorByID(tutor.ID)
+		require.NoError(t, err)
+
+		assert.Equal(t, tutor.ID, tutorFound.ID)
+		assert.Equal(t, tutor.Name, tutorFound.Name)
+		assert.Equal(t, tutor.Email, tutorFound.Email)
+		assert.Equal(t, tutor.Phone, tutorFound.Phone)
+		assert.Equal(t, tutor.Photo, tutorFound.Photo)
+		assert.Equal(t, tutor.City, tutorFound.City)
+		assert.Equal(t, tutor.About, tutorFound.About)
+	})
+
+	t.Run("should not update a tutor when email is already in use", func(t *testing.T) {
+		tutor := tutors[0]
+		tutor.Email = tutors[1].Email
+
+		err := UpdateTutor(&tutor)
+		require.Error(t, err)
+	})
+}
