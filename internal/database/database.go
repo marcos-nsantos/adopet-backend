@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -32,4 +33,8 @@ func Init() {
 		}
 		break
 	}
+}
+
+func Migrate() {
+	DB.AutoMigrate(&entity.Tutor{})
 }
