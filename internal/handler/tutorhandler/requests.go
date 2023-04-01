@@ -23,3 +23,23 @@ func (t *TutorCreateRequest) ToEntity() entity.Tutor {
 		About:    t.About,
 	}
 }
+
+type TutorUpdateRequest struct {
+	Name  string `json:"name" binding:"required"`
+	Email string `json:"email" binding:"required,email"`
+	Phone string `json:"phone"`
+	Photo string `json:"photo"`
+	City  string `json:"city"`
+	About string `json:"about"`
+}
+
+func (t *TutorUpdateRequest) ToEntity() entity.Tutor {
+	return entity.Tutor{
+		Name:  t.Name,
+		Email: t.Email,
+		Phone: t.Phone,
+		Photo: t.Photo,
+		City:  t.City,
+		About: t.About,
+	}
+}
