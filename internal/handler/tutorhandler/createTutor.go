@@ -1,10 +1,12 @@
 package tutorhandler
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/pkg/password"
 )
 
 func CreateTutor(c *gin.Context) {
@@ -13,6 +15,14 @@ func CreateTutor(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
+
+	passwordHashed, err := password.Hash(req.Password)
+	if err != nil {
+		log.Println("error while hashing password", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error while hashing password"})
+		return
+	}
+	req.Password = passwordHashed
 
 	tutor, err := database.CreateTutor(req.ToEntity())
 	if err != nil {
