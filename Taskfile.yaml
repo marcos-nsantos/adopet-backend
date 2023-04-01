@@ -3,7 +3,7 @@
 version: '3'
 
 vars:
-  DATABASE_URL: postgres://postgres:postgres@db:5432/adopet
+  DATABASE_URL: "postgres://postgres:postgres@localhost:5432/adopet"
 
 tasks:
   run:
@@ -16,4 +16,12 @@ tasks:
       - go test -v ./internal/database/...
       - docker-compose down
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/adopet
+      DATABASE_URL: "{{.DATABASE_URL}}"
+
+  e2e-test:
+    cmds:
+      - docker-compose up -d --build db
+      - go test -v ./e2e/...
+      - docker-compose down
+    env:
+      DATABASE_URL: "{{.DATABASE_URL}}"
