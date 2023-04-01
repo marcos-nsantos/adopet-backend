@@ -30,22 +30,22 @@ func TestCreateTutor(t *testing.T) {
 
 	tests := []struct {
 		name       string
-		reqBody    tutorhandler.TutorRequest
+		reqBody    tutorhandler.TutorCreateRequest
 		wantStatus int
 	}{
 		{
 			name:       "should create a tutor and return status 201",
-			reqBody:    tutorhandler.TutorRequest{Name: tutor.Name, Email: tutor.Email, Password: tutor.Password, Phone: tutor.Phone, Photo: tutor.Photo, City: tutor.City, About: tutor.About},
+			reqBody:    tutorhandler.TutorCreateRequest{Name: tutor.Name, Email: tutor.Email, Password: tutor.Password, Phone: tutor.Phone, Photo: tutor.Photo, City: tutor.City, About: tutor.About},
 			wantStatus: http.StatusCreated,
 		},
 		{
 			name:       "should return status 422 when name is empty",
-			reqBody:    tutorhandler.TutorRequest{Name: "", Email: tutor.Email, Password: tutor.Password, Phone: tutor.Phone, Photo: tutor.Photo, City: tutor.City, About: tutor.About},
+			reqBody:    tutorhandler.TutorCreateRequest{Name: "", Email: tutor.Email, Password: tutor.Password, Phone: tutor.Phone, Photo: tutor.Photo, City: tutor.City, About: tutor.About},
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
 			name:       "should return status 409 when email already exists",
-			reqBody:    tutorhandler.TutorRequest{Name: tutor.Name, Email: tutor.Email, Password: tutor.Password, Phone: tutor.Phone, Photo: tutor.Photo, City: tutor.City, About: tutor.About},
+			reqBody:    tutorhandler.TutorCreateRequest{Name: tutor.Name, Email: tutor.Email, Password: tutor.Password, Phone: tutor.Phone, Photo: tutor.Photo, City: tutor.City, About: tutor.About},
 			wantStatus: http.StatusConflict,
 		},
 	}

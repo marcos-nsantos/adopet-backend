@@ -9,7 +9,7 @@ import (
 )
 
 func CreateTutor(c *gin.Context) {
-	var req TutorRequest
+	var req TutorCreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
