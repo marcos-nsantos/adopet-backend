@@ -59,3 +59,29 @@ func TestGetTutorByID(t *testing.T) {
 		require.Error(t, err)
 	})
 }
+
+func TestGetAllTutors(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	tutors := mock.Tutors()
+	DB.CreateInBatches(tutors, len(tutors))
+
+	t.Run("should get all tutors", func(t *testing.T) {
+		tutorsFound, total, err := GetAllTutors(1, 10)
+		require.NoError(t, err)
+		assert.Equal(t, len(tutors), total)
+		assert.Len(t, tutorsFound, len(tutors))
+	})
+
+	t.Run("should get all tutors with pagination", func(t *testing.T) {
+		tutorsFound, total, err := GetAllTutors(1, 2)
+		require.NoError(t, err)
+		assert.Equal(t, len(tutors), total)
+		assert.Len(t, tutorsFound, 2)
+	})
+}
