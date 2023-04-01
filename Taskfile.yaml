@@ -9,3 +9,11 @@ tasks:
   run:
     cmds:
       - docker-compose up -d --build
+
+  integration-test:
+    cmds:
+      - docker-compose up -d --build db
+      - go test -v ./internal/database/...
+      - docker-compose down
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/adopet
