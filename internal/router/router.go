@@ -1,17 +1,17 @@
 package router
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
 )
 
 func SetupRoutes() *gin.Engine {
 	r := gin.Default()
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "pong"})
-	})
+	tutors := r.Group("/tutors")
+	{
+		tutors.POST("", tutorhandler.CreateTutor)
+	}
 
 	return r
 }
