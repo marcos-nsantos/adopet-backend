@@ -1,7 +1,6 @@
 package tutorhandler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -19,7 +18,7 @@ func GetTutorByID(c *gin.Context) {
 
 	tutor, err := database.GetTutorByID(id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("tutor with id %d not found", id)})
+		c.JSON(http.StatusNotFound, gin.H{"error": "tutor not found"})
 		return
 	}
 

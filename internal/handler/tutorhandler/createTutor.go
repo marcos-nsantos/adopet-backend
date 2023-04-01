@@ -1,7 +1,6 @@
 package tutorhandler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,8 +16,7 @@ func CreateTutor(c *gin.Context) {
 
 	tutor, err := database.CreateTutor(req.ToEntity())
 	if err != nil {
-		errMessage := fmt.Sprintf("email %s is already in use", req.Email)
-		c.JSON(http.StatusConflict, gin.H{"error": errMessage})
+		c.JSON(http.StatusConflict, gin.H{"error": "email is already in use"})
 		return
 	}
 
