@@ -12,6 +12,7 @@ func SetupRoutes() *gin.Engine {
 	{
 		tutors.POST("", tutorhandler.CreateTutor)
 		tutors.GET("/:id", tutorhandler.GetTutorByID)
+		tutors.GET("", tutorhandler.GetAllTutors)
 	}
 
 	return r

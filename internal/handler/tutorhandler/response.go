@@ -23,3 +23,24 @@ func toTutorResponse(tutor entity.Tutor) TutorResponse {
 		About: tutor.About,
 	}
 }
+
+type TutorsResponse struct {
+	Page   int             `json:"page"`
+	Limit  int             `json:"limit"`
+	Total  int             `json:"total"`
+	Tutors []TutorResponse `json:"tutors"`
+}
+
+func toTutorsResponse(tutors []entity.Tutor, page, limit, total int) TutorsResponse {
+	var tutorsResponse []TutorResponse
+	for _, tutor := range tutors {
+		tutorsResponse = append(tutorsResponse, toTutorResponse(tutor))
+	}
+
+	return TutorsResponse{
+		Page:   page,
+		Limit:  limit,
+		Total:  total,
+		Tutors: tutorsResponse,
+	}
+}
