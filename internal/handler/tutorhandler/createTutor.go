@@ -17,8 +17,8 @@ func CreateTutor(c *gin.Context) {
 
 	tutor, err := database.CreateTutor(req.ToEntity())
 	if err != nil {
-		errMessage := fmt.Sprintf("email %s already exists", req.Email)
-		c.JSON(http.StatusBadRequest, gin.H{"error": errMessage})
+		errMessage := fmt.Sprintf("email %s is already in use", req.Email)
+		c.JSON(http.StatusConflict, gin.H{"error": errMessage})
 		return
 	}
 

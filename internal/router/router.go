@@ -11,6 +11,7 @@ func SetupRoutes() *gin.Engine {
 	tutors := r.Group("/tutors")
 	{
 		tutors.POST("", tutorhandler.CreateTutor)
+		tutors.GET("/:id", tutorhandler.GetTutorByID)
 	}
 
 	return r
