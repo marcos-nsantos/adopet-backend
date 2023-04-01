@@ -1,3 +1,7 @@
 package main
 
-func main() {}
+import "github.com/marcos-nsantos/adopet-backend/internal/database"
+
+func main() {
+	database.Init()
+}
