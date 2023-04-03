@@ -1,10 +1,11 @@
 package tutorhandler
 
 import (
-	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
