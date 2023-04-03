@@ -11,7 +11,7 @@ func CreateTutor(tutor entity.User) (entity.User, error) {
 
 func GetTutorByID(id uint64) (entity.User, error) {
 	var tutor entity.User
-	result := DB.Select("id", "name", "email", "type", "phone", "photo", "city", "about").Where("type = ?", entity.Tutor).First(&tutor, id)
+	result := DB.Select("id", "name", "email", "phone", "photo", "city", "about").Where("type = ?", entity.Tutor).First(&tutor, id)
 	return tutor, result.Error
 }
 
@@ -22,7 +22,7 @@ func GetAllTutors(page, limit int) ([]entity.User, int, error) {
 	DB.Model(&entity.User{}).Count(&total)
 
 	offset := (page - 1) * limit
-	result := DB.Select("id", "name", "email", "type", "phone", "photo", "city", "about").
+	result := DB.Select("id", "name", "email", "phone", "photo", "city", "about").
 		Where("type = ?", entity.Tutor).Limit(limit).Offset(offset).Find(&tutors)
 	return tutors, int(total), result.Error
 }
