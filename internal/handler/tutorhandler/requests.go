@@ -24,7 +24,7 @@ func (r *UserCreateRequest) ToEntity() entity.User {
 	}
 }
 
-type TutorUpdateRequest struct {
+type UserUpdateRequest struct {
 	Name  string `json:"name" binding:"required"`
 	Email string `json:"email" binding:"required,email"`
 	Phone string `json:"phone"`
@@ -33,7 +33,7 @@ type TutorUpdateRequest struct {
 	About string `json:"about"`
 }
 
-func (t *TutorUpdateRequest) ToEntity() entity.User {
+func (t *UserUpdateRequest) ToEntity() entity.User {
 	return entity.User{
 		Name:  t.Name,
 		Email: t.Email,

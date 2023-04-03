@@ -17,7 +17,7 @@ func UpdateTutor(c *gin.Context) {
 		return
 	}
 
-	var req TutorUpdateRequest
+	var req UserUpdateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid request"})
 		return

@@ -34,25 +34,25 @@ func TestUpdateTutor(t *testing.T) {
 	tests := []struct {
 		name       string
 		id         uint64
-		reqBody    tutorhandler.TutorUpdateRequest
+		reqBody    tutorhandler.UserUpdateRequest
 		wantStatus int
 	}{
 		{
 			name:       "should return status 200",
 			id:         tutor.ID,
-			reqBody:    tutorhandler.TutorUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
+			reqBody:    tutorhandler.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
 			wantStatus: http.StatusOK,
 		},
 		{
 			name:       "should return status 422 when email is invalid or name is empty",
 			id:         tutor.ID,
-			reqBody:    tutorhandler.TutorUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
+			reqBody:    tutorhandler.UserUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
 			name:       "should return status 404 when tutor not found",
 			id:         999,
-			reqBody:    tutorhandler.TutorUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
+			reqBody:    tutorhandler.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
 			wantStatus: http.StatusNotFound,
 		},
 	}
