@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
@@ -21,9 +20,17 @@ func TestCreateTutor(t *testing.T) {
 	t.Run("should create a tutor", func(t *testing.T) {
 		tutorCreated, err := CreateTutor(tutor)
 		require.NoError(t, err)
+
 		assert.NotEmpty(t, tutorCreated.ID)
+		assert.Equal(t, tutor.Name, tutorCreated.Name)
+		assert.Equal(t, tutor.Email, tutorCreated.Email)
+		assert.Equal(t, tutor.Password, tutorCreated.Password)
+		assert.Equal(t, tutor.Type, tutorCreated.Type)
+		assert.Equal(t, tutor.Phone, tutorCreated.Phone)
+		assert.Equal(t, tutor.Photo, tutorCreated.Photo)
+		assert.Equal(t, tutor.City, tutorCreated.City)
+		assert.Equal(t, tutor.About, tutorCreated.About)
 		assert.NotEmpty(t, tutorCreated.CreatedAt)
-		fmt.Println(tutorCreated)
 	})
 
 	t.Run("should not create a tutor when email is already in use", func(t *testing.T) {
