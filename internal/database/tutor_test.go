@@ -37,6 +37,15 @@ func TestGetTutorByID(t *testing.T) {
 		_, err := GetTutorByID(0)
 		require.Error(t, err)
 	})
+
+	t.Run("should an error when user is not a tutor", func(t *testing.T) {
+		shelter := mock.Shelters()[1]
+		shelterCreated, err := CreateUser(shelter)
+		require.NoError(t, err)
+
+		_, err = GetTutorByID(shelterCreated.ID)
+		assert.Error(t, err)
+	})
 }
 
 func TestGetAllTutors(t *testing.T) {
