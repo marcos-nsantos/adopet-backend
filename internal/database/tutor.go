@@ -22,7 +22,8 @@ func GetAllTutors(page, limit int) ([]entity.User, int, error) {
 	DB.Model(&entity.User{}).Count(&total)
 
 	offset := (page - 1) * limit
-	result := DB.Omit("password", "deleted_at").Limit(limit).Offset(offset).Find(&tutors)
+	result := DB.Select("id", "name", "email", "type", "phone", "photo", "city", "about").
+		Where("type = ?", entity.Tutor).Limit(limit).Offset(offset).Find(&tutors)
 	return tutors, int(total), result.Error
 }
 
