@@ -24,6 +24,7 @@ func SetupRoutes() *gin.Engine {
 		shelters.GET("/:id", shelterhandler.GetShelterByID)
 		shelters.GET("", shelterhandler.GetAllShelters)
 		shelters.PUT("/:id", shelterhandler.UpdateShelter)
+		shelters.DELETE("/:id", shelterhandler.DeleteShelter)
 	}
 
 	return r
