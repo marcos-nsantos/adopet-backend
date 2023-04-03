@@ -2,10 +2,11 @@ package tutorhandler
 
 import (
 	"encoding/json"
-	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
