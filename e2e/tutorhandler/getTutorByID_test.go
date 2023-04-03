@@ -27,7 +27,7 @@ func TestGetTutorByID(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutorCreated, err := database.CreateTutor(tutor)
+	tutorCreated, err := database.CreateUser(tutor)
 	require.NoError(t, err)
 
 	tests := []struct {

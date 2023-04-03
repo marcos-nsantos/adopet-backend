@@ -24,7 +24,7 @@ func CreateTutor(c *gin.Context) {
 	}
 	req.Password = passwordHashed
 
-	tutor, err := database.CreateTutor(req.ToEntity())
+	tutor, err := database.CreateUser(req.ToEntity())
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "email is already in use"})
 		return

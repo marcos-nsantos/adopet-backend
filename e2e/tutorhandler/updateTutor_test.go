@@ -28,7 +28,7 @@ func TestUpdateTutor(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutor, err := database.CreateTutor(tutor)
+	tutor, err := database.CreateUser(tutor)
 	require.NoError(t, err)
 
 	tests := []struct {

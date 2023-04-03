@@ -8,37 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestCreateTutor(t *testing.T) {
-	Init()
-	Migrate()
-
-	t.Cleanup(func() {
-		DropTables()
-	})
-
-	tutor := mock.Tutors()[0]
-	t.Run("should create a tutor", func(t *testing.T) {
-		tutorCreated, err := CreateTutor(tutor)
-		require.NoError(t, err)
-
-		assert.NotEmpty(t, tutorCreated.ID)
-		assert.Equal(t, tutor.Name, tutorCreated.Name)
-		assert.Equal(t, tutor.Email, tutorCreated.Email)
-		assert.Equal(t, tutor.Password, tutorCreated.Password)
-		assert.Equal(t, tutor.Type, tutorCreated.Type)
-		assert.Equal(t, tutor.Phone, tutorCreated.Phone)
-		assert.Equal(t, tutor.Photo, tutorCreated.Photo)
-		assert.Equal(t, tutor.City, tutorCreated.City)
-		assert.Equal(t, tutor.About, tutorCreated.About)
-		assert.NotEmpty(t, tutorCreated.CreatedAt)
-	})
-
-	t.Run("should not create a tutor when email is already in use", func(t *testing.T) {
-		_, err := CreateTutor(tutor)
-		require.Error(t, err)
-	})
-}
-
 func TestGetTutorByID(t *testing.T) {
 	Init()
 	Migrate()
@@ -48,7 +17,7 @@ func TestGetTutorByID(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutorCreated, err := CreateTutor(tutor)
+	tutorCreated, err := CreateUser(tutor)
 	require.NoError(t, err)
 
 	t.Run("should get a tutor by id", func(t *testing.T) {
@@ -148,7 +117,7 @@ func TestDeleteTutor(t *testing.T) {
 		DropTables()
 	})
 
-	tutor, err := CreateTutor(mock.Tutors()[0])
+	tutor, err := CreateUser(mock.Tutors()[0])
 	require.NoError(t, err)
 
 	t.Run("should delete a tutor", func(t *testing.T) {
