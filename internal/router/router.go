@@ -21,6 +21,7 @@ func SetupRoutes() *gin.Engine {
 	shelters := r.Group("/shelters")
 	{
 		shelters.POST("", shelterhandler.CreateShelter)
+		shelters.GET("", shelterhandler.GetAllShelters)
 	}
 
 	return r
