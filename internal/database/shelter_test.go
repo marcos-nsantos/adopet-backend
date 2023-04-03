@@ -47,3 +47,31 @@ func TestGetShelterByID(t *testing.T) {
 		assert.Error(t, err)
 	})
 }
+
+func TestGetAllShelters(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	shelters := mock.Shelters()
+	DB.CreateInBatches(shelters, len(shelters))
+
+	t.Run("should get all shelters", func(t *testing.T) {
+		sheltersFound, total, err := GetAllShelters(1, 10)
+		require.NoError(t, err)
+
+		assert.Equal(t, len(shelters), total)
+		assert.Equal(t, len(shelters), len(sheltersFound))
+	})
+
+	t.Run("should get all shelters with pagination", func(t *testing.T) {
+		sheltersFound, total, err := GetAllShelters(1, 2)
+		require.NoError(t, err)
+
+		assert.Equal(t, len(shelters), total)
+		assert.Equal(t, 2, len(sheltersFound))
+	})
+}
