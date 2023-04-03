@@ -1,6 +1,7 @@
 package tutorhandler
 
 import (
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"log"
 	"net/http"
 
@@ -16,15 +17,19 @@ func CreateTutor(c *gin.Context) {
 		return
 	}
 
-	passwordHashed, err := password.Hash(req.Password)
+	user := req.ToEntity()
+
+	passwordHashed, err := password.Hash(user.Password)
 	if err != nil {
 		log.Println("error while hashing password", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error while hashing password"})
 		return
 	}
-	req.Password = passwordHashed
 
-	tutor, err := database.CreateUser(req.ToEntity())
+	user.Password = passwordHashed
+	user.Type = entity.Tutor
+
+	tutor, err := database.CreateUser(user)
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "email is already in use"})
 		return
