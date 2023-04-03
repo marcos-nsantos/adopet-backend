@@ -12,7 +12,7 @@ type TutorResponse struct {
 	About string `json:"about"`
 }
 
-func toTutorResponse(tutor entity.Tutor) TutorResponse {
+func toTutorResponse(tutor entity.User) TutorResponse {
 	return TutorResponse{
 		ID:    tutor.ID,
 		Name:  tutor.Name,
@@ -31,7 +31,7 @@ type TutorsResponse struct {
 	Tutors []TutorResponse `json:"tutors"`
 }
 
-func toTutorsResponse(tutors []entity.Tutor, page, limit, total int) TutorsResponse {
+func toTutorsResponse(tutors []entity.User, page, limit, total int) TutorsResponse {
 	var tutorsResponse []TutorResponse
 	for _, tutor := range tutors {
 		tutorsResponse = append(tutorsResponse, toTutorResponse(tutor))

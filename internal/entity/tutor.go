@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Tutor struct {
+type User struct {
 	ID        uint64 `gorm:"primaryKey"`
 	Name      string `gorm:"type:varchar(100);not null"`
 	Email     string `gorm:"type:varchar(255);not null;unique"`
