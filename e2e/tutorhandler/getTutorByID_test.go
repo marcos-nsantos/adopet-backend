@@ -57,7 +57,7 @@ func TestGetTutorByID(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var tutor tutorhandler.TutorResponse
+				var tutor tutorhandler.UserResponse
 				err = json.Unmarshal(w.Body.Bytes(), &tutor)
 				require.NoError(t, err)
 

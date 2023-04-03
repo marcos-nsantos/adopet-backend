@@ -2,7 +2,7 @@ package tutorhandler
 
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 
-type TutorResponse struct {
+type UserResponse struct {
 	ID    uint64 `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
@@ -12,8 +12,8 @@ type TutorResponse struct {
 	About string `json:"about"`
 }
 
-func toTutorResponse(tutor entity.User) TutorResponse {
-	return TutorResponse{
+func toUserResponse(tutor entity.User) UserResponse {
+	return UserResponse{
 		ID:    tutor.ID,
 		Name:  tutor.Name,
 		Email: tutor.Email,
@@ -25,16 +25,16 @@ func toTutorResponse(tutor entity.User) TutorResponse {
 }
 
 type TutorsResponse struct {
-	Page   int             `json:"page"`
-	Limit  int             `json:"limit"`
-	Total  int             `json:"total"`
-	Tutors []TutorResponse `json:"tutors"`
+	Page   int            `json:"page"`
+	Limit  int            `json:"limit"`
+	Total  int            `json:"total"`
+	Tutors []UserResponse `json:"tutors"`
 }
 
 func toTutorsResponse(tutors []entity.User, page, limit, total int) TutorsResponse {
-	var tutorsResponse []TutorResponse
+	var tutorsResponse []UserResponse
 	for _, tutor := range tutors {
-		tutorsResponse = append(tutorsResponse, toTutorResponse(tutor))
+		tutorsResponse = append(tutorsResponse, toUserResponse(tutor))
 	}
 
 	return TutorsResponse{

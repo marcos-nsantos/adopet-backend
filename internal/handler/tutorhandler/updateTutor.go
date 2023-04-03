@@ -37,5 +37,5 @@ func UpdateTutor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, toTutorResponse(tutor))
+	c.JSON(http.StatusOK, toUserResponse(tutor))
 }

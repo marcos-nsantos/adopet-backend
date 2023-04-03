@@ -34,5 +34,5 @@ func CreateTutor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, toTutorResponse(tutor))
+	c.JSON(http.StatusCreated, toUserResponse(tutor))
 }
