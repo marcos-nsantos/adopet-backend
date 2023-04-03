@@ -36,9 +36,9 @@ func Init() {
 }
 
 func Migrate() {
-	DB.AutoMigrate(&entity.User{})
+	DB.AutoMigrate(&entity.User{}, &entity.Pet{})
 }
 
 func DropTables() {
-	DB.Migrator().DropTable(&entity.User{})
+	DB.Migrator().DropTable(&entity.User{}, &entity.Pet{})
 }
