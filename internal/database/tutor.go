@@ -19,11 +19,3 @@ func GetAllTutors(page, limit int) ([]entity.User, int, error) {
 		Where("type = ?", entity.Tutor).Limit(limit).Offset(offset).Find(&tutors)
 	return tutors, int(total), result.Error
 }
-
-func UpdateTutor(tutor *entity.User) error {
-	return DB.Model(&tutor).Omit("id", "password").Save(tutor).Error
-}
-
-func DeleteTutor(id uint64) error {
-	return DB.Delete(&entity.User{}, id).Error
-}

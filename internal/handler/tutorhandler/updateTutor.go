@@ -31,7 +31,7 @@ func UpdateTutor(c *gin.Context) {
 	tutor := req.ToEntity()
 	tutor.ID = id
 
-	if err = database.UpdateTutor(&tutor); err != nil {
+	if err = database.UpdateUser(&tutor); err != nil {
 		log.Println("error updating tutor", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error updating tutor"})
 		return

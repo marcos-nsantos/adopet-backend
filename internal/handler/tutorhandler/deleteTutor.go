@@ -22,7 +22,7 @@ func DeleteTutor(c *gin.Context) {
 		return
 	}
 
-	if err = database.DeleteTutor(id); err != nil {
+	if err = database.DeleteUser(id); err != nil {
 		log.Println("error deleting tutor", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error deleting tutor"})
 		return
