@@ -2,7 +2,7 @@ package tutorhandler
 
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 
-type TutorCreateRequest struct {
+type UserCreateRequest struct {
 	Name     string `json:"name" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required,min=6"`
@@ -12,15 +12,15 @@ type TutorCreateRequest struct {
 	About    string `json:"about"`
 }
 
-func (t *TutorCreateRequest) ToEntity() entity.User {
+func (r *UserCreateRequest) ToEntity() entity.User {
 	return entity.User{
-		Name:     t.Name,
-		Email:    t.Email,
-		Password: t.Password,
-		Phone:    t.Phone,
-		Photo:    t.Photo,
-		City:     t.City,
-		About:    t.About,
+		Name:     r.Name,
+		Email:    r.Email,
+		Password: r.Password,
+		Phone:    r.Phone,
+		Photo:    r.Photo,
+		City:     r.City,
+		About:    r.About,
 	}
 }
 

@@ -11,14 +11,13 @@ import (
 )
 
 func CreateTutor(c *gin.Context) {
-	var req TutorCreateRequest
+	var req UserCreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
 
 	user := req.ToEntity()
-
 	passwordHashed, err := password.Hash(user.Password)
 	if err != nil {
 		log.Println("error while hashing password", err)
