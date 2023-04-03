@@ -58,6 +58,7 @@ func TestGetTutorByID(t *testing.T) {
 		assert.Equal(t, tutorCreated.Name, tutorFound.Name)
 		assert.Equal(t, tutorCreated.Email, tutorFound.Email)
 		assert.Empty(t, tutorFound.Password)
+		assert.Equal(t, tutorCreated.Type, tutorFound.Type)
 		assert.Equal(t, tutorCreated.Phone, tutorFound.Phone)
 		assert.Equal(t, tutorCreated.Photo, tutorFound.Photo)
 		assert.Equal(t, tutorCreated.City, tutorFound.City)
