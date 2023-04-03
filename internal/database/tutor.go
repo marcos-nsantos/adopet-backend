@@ -11,7 +11,7 @@ func CreateTutor(tutor entity.User) (entity.User, error) {
 
 func GetTutorByID(id uint64) (entity.User, error) {
 	var tutor entity.User
-	result := DB.Omit("password", "deleted_at").First(&tutor, id)
+	result := DB.Select("id", "name", "email", "type", "phone", "photo", "city", "about").First(&tutor, id)
 	return tutor, result.Error
 }
 
