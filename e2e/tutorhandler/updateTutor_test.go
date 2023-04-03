@@ -4,13 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
-	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
 	"github.com/stretchr/testify/assert"
@@ -34,25 +34,25 @@ func TestUpdateTutor(t *testing.T) {
 	tests := []struct {
 		name       string
 		id         uint64
-		reqBody    tutorhandler.UserUpdateRequest
+		reqBody    schemas.UserUpdateRequest
 		wantStatus int
 	}{
 		{
 			name:       "should return status 200",
 			id:         tutor.ID,
-			reqBody:    tutorhandler.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
+			reqBody:    schemas.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
 			wantStatus: http.StatusOK,
 		},
 		{
 			name:       "should return status 422 when email is invalid or name is empty",
 			id:         tutor.ID,
-			reqBody:    tutorhandler.UserUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
+			reqBody:    schemas.UserUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
 			name:       "should return status 404 when tutor not found",
 			id:         999,
-			reqBody:    tutorhandler.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
+			reqBody:    schemas.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
 			wantStatus: http.StatusNotFound,
 		},
 	}
@@ -70,7 +70,7 @@ func TestUpdateTutor(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var tutor tutorhandler.UserResponse
+				var tutor schemas.UserResponse
 				err = json.Unmarshal(w.Body.Bytes(), &tutor)
 				require.NoError(t, err)
 

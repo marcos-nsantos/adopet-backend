@@ -1,6 +1,7 @@
 package tutorhandler
 
 import (
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"log"
 	"net/http"
 	"strconv"
@@ -19,7 +20,7 @@ func GetAllTutors(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, toUsersResponse(tutors, page, limit, total))
+	c.JSON(http.StatusOK, schemas.ToUsersResponse(tutors, page, limit, total))
 }
 
 func queryTutors(c *gin.Context) (int, int) {

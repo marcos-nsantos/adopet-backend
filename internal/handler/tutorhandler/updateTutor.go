@@ -1,6 +1,7 @@
 package tutorhandler
 
 import (
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"log"
 	"net/http"
 	"strconv"
@@ -17,7 +18,7 @@ func UpdateTutor(c *gin.Context) {
 		return
 	}
 
-	var req UserUpdateRequest
+	var req schemas.UserUpdateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid request"})
 		return
@@ -37,5 +38,5 @@ func UpdateTutor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, toUserResponse(tutor))
+	c.JSON(http.StatusOK, schemas.ToUserResponse(tutor))
 }

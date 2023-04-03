@@ -3,13 +3,13 @@ package tutorhandler
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
-	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
 	"github.com/stretchr/testify/assert"
@@ -31,12 +31,12 @@ func TestCreateTutor(t *testing.T) {
 
 	tests := []struct {
 		name       string
-		reqBody    tutorhandler.UserCreateRequest
+		reqBody    schemas.UserCreateRequest
 		wantStatus int
 	}{
 		{
 			name: "should create a tutor and return status 201",
-			reqBody: tutorhandler.UserCreateRequest{
+			reqBody: schemas.UserCreateRequest{
 				Name:     tutor.Name,
 				Email:    tutor.Email,
 				Password: tutor.Password,
@@ -49,7 +49,7 @@ func TestCreateTutor(t *testing.T) {
 		},
 		{
 			name: "should return status 422 when name is empty",
-			reqBody: tutorhandler.UserCreateRequest{
+			reqBody: schemas.UserCreateRequest{
 				Name:     "",
 				Email:    tutor.Email,
 				Password: tutor.Password,
@@ -62,7 +62,7 @@ func TestCreateTutor(t *testing.T) {
 		},
 		{
 			name: "should return status 409 when email already exists",
-			reqBody: tutorhandler.UserCreateRequest{
+			reqBody: schemas.UserCreateRequest{
 				Name:     tutor.Name,
 				Email:    tutor.Email,
 				Password: tutor.Password,

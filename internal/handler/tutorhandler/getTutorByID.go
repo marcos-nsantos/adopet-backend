@@ -1,6 +1,7 @@
 package tutorhandler
 
 import (
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"net/http"
 	"strconv"
 
@@ -22,5 +23,5 @@ func GetTutorByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, toUserResponse(tutor))
+	c.JSON(http.StatusOK, schemas.ToUserResponse(tutor))
 }

@@ -2,13 +2,13 @@ package tutorhandler
 
 import (
 	"encoding/json"
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
-	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
 	"github.com/stretchr/testify/assert"
@@ -56,7 +56,7 @@ func TestGetAllUsers(t *testing.T) {
 			assert.Equal(t, tt.wantStatus, w.Code)
 
 			if tt.wantStatus == http.StatusOK {
-				var reqBody tutorhandler.UsersResponse
+				var reqBody schemas.UsersResponse
 				err := json.Unmarshal(w.Body.Bytes(), &reqBody)
 				require.NoError(t, err)
 				assert.GreaterOrEqual(t, len(reqBody.Users), 2)

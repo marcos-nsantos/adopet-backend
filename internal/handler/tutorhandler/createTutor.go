@@ -2,6 +2,7 @@ package tutorhandler
 
 import (
 	"github.com/marcos-nsantos/adopet-backend/internal/entity"
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"log"
 	"net/http"
 
@@ -11,7 +12,7 @@ import (
 )
 
 func CreateTutor(c *gin.Context) {
-	var req UserCreateRequest
+	var req schemas.UserCreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
@@ -34,5 +35,5 @@ func CreateTutor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, toUserResponse(tutor))
+	c.JSON(http.StatusCreated, schemas.ToUserResponse(tutor))
 }

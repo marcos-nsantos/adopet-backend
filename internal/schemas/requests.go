@@ -1,4 +1,4 @@
-package tutorhandler
+package schemas
 
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 

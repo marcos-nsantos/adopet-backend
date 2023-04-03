@@ -1,4 +1,4 @@
-package tutorhandler
+package schemas
 
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 
@@ -12,7 +12,7 @@ type UserResponse struct {
 	About string `json:"about"`
 }
 
-func toUserResponse(tutor entity.User) UserResponse {
+func ToUserResponse(tutor entity.User) UserResponse {
 	return UserResponse{
 		ID:    tutor.ID,
 		Name:  tutor.Name,
@@ -31,10 +31,10 @@ type UsersResponse struct {
 	Users []UserResponse `json:"users"`
 }
 
-func toUsersResponse(users []entity.User, page, limit, total int) UsersResponse {
+func ToUsersResponse(users []entity.User, page, limit, total int) UsersResponse {
 	var usersResponse []UserResponse
 	for _, tutor := range users {
-		usersResponse = append(usersResponse, toUserResponse(tutor))
+		usersResponse = append(usersResponse, ToUserResponse(tutor))
 	}
 
 	return UsersResponse{
