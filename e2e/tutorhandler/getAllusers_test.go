@@ -56,10 +56,10 @@ func TestGetAllUsers(t *testing.T) {
 			assert.Equal(t, tt.wantStatus, w.Code)
 
 			if tt.wantStatus == http.StatusOK {
-				var reqBody tutorhandler.TutorsResponse
+				var reqBody tutorhandler.UsersResponse
 				err := json.Unmarshal(w.Body.Bytes(), &reqBody)
 				require.NoError(t, err)
-				assert.GreaterOrEqual(t, len(reqBody.Tutors), 2)
+				assert.GreaterOrEqual(t, len(reqBody.Users), 2)
 				assert.Equal(t, reqBody.Total, len(users))
 			}
 		})

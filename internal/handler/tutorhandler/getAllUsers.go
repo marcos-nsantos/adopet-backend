@@ -19,7 +19,7 @@ func GetAllTutors(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, toTutorsResponse(tutors, page, limit, total))
+	c.JSON(http.StatusOK, toUsersResponse(tutors, page, limit, total))
 }
 
 func queryTutors(c *gin.Context) (int, int) {

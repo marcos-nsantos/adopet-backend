@@ -24,23 +24,23 @@ func toUserResponse(tutor entity.User) UserResponse {
 	}
 }
 
-type TutorsResponse struct {
-	Page   int            `json:"page"`
-	Limit  int            `json:"limit"`
-	Total  int            `json:"total"`
-	Tutors []UserResponse `json:"tutors"`
+type UsersResponse struct {
+	Page  int            `json:"page"`
+	Limit int            `json:"limit"`
+	Total int            `json:"total"`
+	Users []UserResponse `json:"users"`
 }
 
-func toTutorsResponse(tutors []entity.User, page, limit, total int) TutorsResponse {
-	var tutorsResponse []UserResponse
-	for _, tutor := range tutors {
-		tutorsResponse = append(tutorsResponse, toUserResponse(tutor))
+func toUsersResponse(users []entity.User, page, limit, total int) UsersResponse {
+	var usersResponse []UserResponse
+	for _, tutor := range users {
+		usersResponse = append(usersResponse, toUserResponse(tutor))
 	}
 
-	return TutorsResponse{
-		Page:   page,
-		Limit:  limit,
-		Total:  total,
-		Tutors: tutorsResponse,
+	return UsersResponse{
+		Page:  page,
+		Limit: limit,
+		Total: total,
+		Users: usersResponse,
 	}
 }
