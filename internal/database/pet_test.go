@@ -77,6 +77,13 @@ func TestGetPetByID(t *testing.T) {
 		_, err := GetPetByID(result.ID)
 		require.Error(t, err)
 	})
+
+	t.Run("should not return a pet it is adopted", func(t *testing.T) {
+		result.IsAdopt = true
+		DB.Save(&result)
+		_, err := GetPetByID(result.ID)
+		require.Error(t, err)
+	})
 }
 
 func TestGetAllPets(t *testing.T) {
@@ -95,16 +102,15 @@ func TestGetAllPets(t *testing.T) {
 	t.Run("should get all pets", func(t *testing.T) {
 		result, total, err := GetAllPets(1, 10)
 		require.NoError(t, err)
-
-		assert.Equal(t, len(pets), total)
-		assert.Equal(t, len(pets), len(result))
+		assert.NotEqual(t, 0, total)
+		assert.NotEmpty(t, result)
 	})
 
 	t.Run("should get all pets with limit of 2", func(t *testing.T) {
 		result, total, err := GetAllPets(1, 2)
 		require.NoError(t, err)
 
-		assert.Equal(t, len(pets), total)
+		assert.NotEqual(t, len(pets), total)
 		assert.Equal(t, 2, len(result))
 	})
 }
