@@ -36,18 +36,18 @@ func TestDeleteShelter(t *testing.T) {
 		{
 			name:       "should return status 204",
 			id:         shelterCreated.ID,
-			wantStatus: http.StatusOK,
+			wantStatus: http.StatusNoContent,
 		},
 		{
 			name:       "should return status 404 when shelter not found",
-			id:         999,
-			wantStatus: http.StatusNoContent,
+			id:         shelterCreated.ID,
+			wantStatus: http.StatusNotFound,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest(http.MethodDelete, fmt.Sprintf("/shelter/%d", tt.id), nil)
+			req, err := http.NewRequest(http.MethodDelete, fmt.Sprintf("/shelters/%d", tt.id), nil)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()
