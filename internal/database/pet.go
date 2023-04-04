@@ -24,3 +24,8 @@ func GetAllPets(page, limit int) ([]entity.Pet, int, error) {
 		Limit(limit).Offset(offset).Find(&pets)
 	return pets, int(total), result.Error
 }
+
+func UpdatePet(pet entity.Pet) error {
+	result := DB.Model(&pet).Select("name", "description", "is_adopt", "age", "photo", "uf", "city").Updates(pet)
+	return result.Error
+}

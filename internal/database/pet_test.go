@@ -95,3 +95,27 @@ func TestGetAllPets(t *testing.T) {
 		assert.Equal(t, 2, len(result))
 	})
 }
+
+func TestUpdatePet(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	pet := mock.Pet()[0]
+	result, err := CreatePet(pet)
+	require.NoError(t, err)
+
+	t.Run("should update a pet", func(t *testing.T) {
+		result.Name = "Test"
+		err := UpdatePet(result)
+		require.NoError(t, err)
+
+		pet, err := GetPetByID(result.ID)
+		require.NoError(t, err)
+
+		assert.Equal(t, result.Name, pet.Name)
+	})
+}
