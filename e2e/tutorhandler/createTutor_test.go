@@ -3,10 +3,11 @@ package tutorhandler
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
@@ -17,7 +18,7 @@ import (
 )
 
 func TestCreateTutor(t *testing.T) {
-	database.Init()
+	database.InitTest()
 	database.Migrate()
 	gin.SetMode(gin.TestMode)
 	r := router.SetupRoutes()

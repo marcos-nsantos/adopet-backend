@@ -3,6 +3,10 @@ package shelterhandler
 import (
 	"bytes"
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
@@ -10,13 +14,10 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 func TestCreateShelter(t *testing.T) {
-	database.Init()
+	database.InitTest()
 	database.Migrate()
 	gin.SetMode(gin.TestMode)
 	r := router.SetupRoutes()

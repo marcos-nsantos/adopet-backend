@@ -15,7 +15,7 @@ import (
 )
 
 func TestDeleteTutor(t *testing.T) {
-	database.Init()
+	database.InitTest()
 	database.Migrate()
 	gin.SetMode(gin.TestMode)
 	r := router.SetupRoutes()

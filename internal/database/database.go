@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/glebarez/sqlite"
 	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -32,6 +33,14 @@ func Init() {
 			}
 		}
 		break
+	}
+}
+
+func InitTest() {
+	var err error
+	DB, err = gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
