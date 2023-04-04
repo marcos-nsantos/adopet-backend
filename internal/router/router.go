@@ -31,6 +31,7 @@ func SetupRoutes() *gin.Engine {
 	pets := r.Group("/pets")
 	{
 		pets.POST("", pethandler.CreatePet)
+		pets.GET("/:id", pethandler.GetPetByID)
 	}
 
 	return r
