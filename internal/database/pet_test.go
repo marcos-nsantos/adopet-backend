@@ -67,3 +67,31 @@ func TestGetPetByID(t *testing.T) {
 		require.Error(t, err)
 	})
 }
+
+func TestGetAllPets(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	pets := mock.Pet()
+	DB.CreateInBatches(pets, len(pets))
+
+	t.Run("should get all pets", func(t *testing.T) {
+		result, total, err := GetAllPets(1, 10)
+		require.NoError(t, err)
+
+		assert.Equal(t, len(pets), total)
+		assert.Equal(t, len(pets), len(result))
+	})
+
+	t.Run("should get all pets with limit of 2", func(t *testing.T) {
+		result, total, err := GetAllPets(1, 2)
+		require.NoError(t, err)
+
+		assert.Equal(t, len(pets), total)
+		assert.Equal(t, 2, len(result))
+	})
+}
