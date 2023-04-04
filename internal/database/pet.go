@@ -29,3 +29,7 @@ func UpdatePet(pet entity.Pet) error {
 	result := DB.Model(&pet).Select("name", "description", "is_adopt", "age", "photo", "uf", "city").Updates(pet)
 	return result.Error
 }
+
+func DeletePet(id uint64) error {
+	return DB.Delete(&entity.Pet{}, id).Error
+}

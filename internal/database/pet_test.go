@@ -119,3 +119,24 @@ func TestUpdatePet(t *testing.T) {
 		assert.Equal(t, result.Name, pet.Name)
 	})
 }
+
+func TestDeletePet(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	pet := mock.Pet()[0]
+	result, err := CreatePet(pet)
+	require.NoError(t, err)
+
+	t.Run("should delete a pet", func(t *testing.T) {
+		err := DeletePet(result.ID)
+		require.NoError(t, err)
+
+		_, err = GetPetByID(result.ID)
+		require.Error(t, err)
+	})
+}
