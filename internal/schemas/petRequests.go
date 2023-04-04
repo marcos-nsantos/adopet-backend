@@ -10,6 +10,7 @@ type PetCreateRequests struct {
 	Photo       string `json:"photo" binding:"required,uri"`
 	UF          string `json:"uf" binding:"required"`
 	City        string `json:"city" binding:"required"`
+	UserID      uint64 `json:"shelterId" binding:"required"`
 }
 
 func (p *PetCreateRequests) ToEntity() entity.Pet {
@@ -21,6 +22,7 @@ func (p *PetCreateRequests) ToEntity() entity.Pet {
 		Photo:       p.Photo,
 		UF:          p.UF,
 		City:        p.City,
+		UserID:      p.UserID,
 	}
 }
 

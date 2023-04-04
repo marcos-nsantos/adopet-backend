@@ -10,6 +10,7 @@ type PetResponse struct {
 	Photo       string `json:"photo"`
 	UF          string `json:"uf"`
 	City        string `json:"city"`
+	ShelterID   uint64 `json:"shelterId"`
 }
 
 func ToPetResponse(pet entity.Pet) PetResponse {
@@ -21,6 +22,7 @@ func ToPetResponse(pet entity.Pet) PetResponse {
 		Photo:       pet.Photo,
 		UF:          pet.UF,
 		City:        pet.City,
+		ShelterID:   pet.UserID,
 	}
 }
 

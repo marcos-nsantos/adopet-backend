@@ -3,7 +3,6 @@ package pethandler
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -27,6 +26,9 @@ func TestCreatePet(t *testing.T) {
 		database.DropTables()
 	})
 
+	shelter := mock.Shelters()[0]
+	shelterCreated, err := database.CreateUser(shelter)
+	require.NoError(t, err)
 	pet := mock.Pet()[0]
 
 	tests := []struct {
@@ -44,6 +46,7 @@ func TestCreatePet(t *testing.T) {
 				IsAdopt:     pet.IsAdopt,
 				UF:          pet.UF,
 				City:        pet.City,
+				UserID:      shelterCreated.ID,
 			},
 			wantStatus: http.StatusCreated,
 		},
@@ -57,6 +60,7 @@ func TestCreatePet(t *testing.T) {
 				IsAdopt:     pet.IsAdopt,
 				UF:          pet.UF,
 				City:        pet.City,
+				UserID:      shelterCreated.ID,
 			},
 			wantStatus: http.StatusUnprocessableEntity,
 		},
@@ -74,7 +78,6 @@ func TestCreatePet(t *testing.T) {
 			r.ServeHTTP(w, req)
 
 			assert.Equal(t, tt.wantStatus, w.Code)
-			fmt.Println(w.Body.String())
 		})
 	}
 }

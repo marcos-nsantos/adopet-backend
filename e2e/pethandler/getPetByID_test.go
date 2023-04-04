@@ -26,8 +26,12 @@ func TestGetPetByID(t *testing.T) {
 		database.DropTables()
 	})
 
+	shelter := mock.Shelters()[0]
+	shelterCreated, err := database.CreateUser(shelter)
+	require.NoError(t, err)
 	pet := mock.Pet()[0]
-	pet, err := database.CreatePet(pet)
+	pet.UserID = shelterCreated.ID
+	pet, err = database.CreatePet(pet)
 	require.NoError(t, err)
 
 	tests := []struct {
@@ -68,6 +72,7 @@ func TestGetPetByID(t *testing.T) {
 				assert.Equal(t, pet.IsAdopt, bodyResult.IsAdopt)
 				assert.Equal(t, pet.UF, bodyResult.UF)
 				assert.Equal(t, pet.City, bodyResult.City)
+				assert.Equal(t, pet.UserID, bodyResult.ShelterID)
 			}
 		})
 	}
