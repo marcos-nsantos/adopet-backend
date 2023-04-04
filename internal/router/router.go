@@ -32,6 +32,7 @@ func SetupRoutes() *gin.Engine {
 	{
 		pets.POST("", pethandler.CreatePet)
 		pets.GET("/:id", pethandler.GetPetByID)
+		pets.GET("", pethandler.GetAllPets)
 	}
 
 	return r
