@@ -23,6 +23,7 @@ type User struct {
 	Photo     string
 	City      string `gorm:"type:varchar(255)"`
 	About     string
+	Pet       []Pet
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`

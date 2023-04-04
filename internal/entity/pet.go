@@ -15,6 +15,7 @@ type Pet struct {
 	Photo       string `gorm:"not null"`
 	UF          string `gorm:"type:varchar(2);not null"`
 	City        string `gorm:"type:varchar(255);not null"`
+	UserID      uint64
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`

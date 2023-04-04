@@ -9,7 +9,7 @@ func CreatePet(pet entity.Pet) (entity.Pet, error) {
 
 func GetPetByID(id uint64) (entity.Pet, error) {
 	var pet entity.Pet
-	result := DB.Select("id", "name", "description", "is_adopt", "age", "photo", "uf", "city").First(&pet, id)
+	result := DB.Select("id", "name", "description", "is_adopt", "age", "photo", "uf", "city", "user_id").First(&pet, id)
 	return pet, result.Error
 }
 
@@ -20,7 +20,7 @@ func GetAllPets(page, limit int) ([]entity.Pet, int, error) {
 	DB.Model(&entity.Pet{}).Count(&total)
 
 	offset := (page - 1) * limit
-	result := DB.Select("id", "name", "description", "is_adopt", "age", "photo", "uf", "city").
+	result := DB.Select("id", "name", "description", "is_adopt", "age", "photo", "uf", "city", "user_id").
 		Limit(limit).Offset(offset).Find(&pets)
 	return pets, int(total), result.Error
 }

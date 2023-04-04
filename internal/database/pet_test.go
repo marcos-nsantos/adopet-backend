@@ -16,8 +16,13 @@ func TestCreatePet(t *testing.T) {
 		DropTables()
 	})
 
+	user := mock.Shelters()[0]
+	shelterCreated, err := CreateUser(user)
+	require.NoError(t, err)
+
 	t.Run("should create a pet", func(t *testing.T) {
 		pet := mock.Pet()[0]
+		pet.UserID = shelterCreated.ID
 		result, err := CreatePet(pet)
 		require.NoError(t, err)
 
@@ -28,6 +33,7 @@ func TestCreatePet(t *testing.T) {
 		assert.Equal(t, pet.Photo, result.Photo)
 		assert.Equal(t, pet.UF, result.UF)
 		assert.Equal(t, pet.City, result.City)
+		assert.Equal(t, pet.UserID, result.UserID)
 	})
 }
 
@@ -39,7 +45,11 @@ func TestGetPetByID(t *testing.T) {
 		DropTables()
 	})
 
+	user := mock.Shelters()[0]
+	shelterCreated, err := CreateUser(user)
+	require.NoError(t, err)
 	pet := mock.Pet()[0]
+	pet.UserID = shelterCreated.ID
 	result, err := CreatePet(pet)
 	require.NoError(t, err)
 
@@ -54,6 +64,7 @@ func TestGetPetByID(t *testing.T) {
 		assert.Equal(t, pet.Photo, result.Photo)
 		assert.Equal(t, pet.UF, result.UF)
 		assert.Equal(t, pet.City, result.City)
+		assert.Equal(t, pet.UserID, result.UserID)
 	})
 
 	t.Run("should return error when pet is not found", func(t *testing.T) {
@@ -76,6 +87,8 @@ func TestGetAllPets(t *testing.T) {
 		DropTables()
 	})
 
+	_, err := CreateUser(mock.Shelters()[0])
+	require.NoError(t, err)
 	pets := mock.Pet()
 	DB.CreateInBatches(pets, len(pets))
 
@@ -104,7 +117,10 @@ func TestUpdatePet(t *testing.T) {
 		DropTables()
 	})
 
+	shelter := mock.Shelters()[0]
+	shelterCreated, err := CreateUser(shelter)
 	pet := mock.Pet()[0]
+	pet.UserID = shelterCreated.ID
 	result, err := CreatePet(pet)
 	require.NoError(t, err)
 
@@ -128,7 +144,10 @@ func TestDeletePet(t *testing.T) {
 		DropTables()
 	})
 
+	shelter := mock.Shelters()[0]
+	shelterCreated, err := CreateUser(shelter)
 	pet := mock.Pet()[0]
+	pet.UserID = shelterCreated.ID
 	result, err := CreatePet(pet)
 	require.NoError(t, err)
 

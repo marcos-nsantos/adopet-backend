@@ -12,6 +12,7 @@ func Pet() []entity.Pet {
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "SP",
 			City:        "São Paulo",
+			UserID:      1,
 		},
 		{
 			Name:        "Luna",
@@ -21,6 +22,7 @@ func Pet() []entity.Pet {
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "MG",
 			City:        "Belo Horizonte",
+			UserID:      1,
 		},
 		{
 			Name:        "Buddy",
@@ -30,6 +32,7 @@ func Pet() []entity.Pet {
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "RJ",
 			City:        "Rio de Janeiro",
+			UserID:      1,
 		},
 		{
 			Name:        "Simba",
@@ -39,6 +42,7 @@ func Pet() []entity.Pet {
 			Photo:       "https://some-cat-photo.jpg",
 			UF:          "AC",
 			City:        "Rio Branco",
+			UserID:      1,
 		},
 		{
 			Name:        "Max",
@@ -48,6 +52,7 @@ func Pet() []entity.Pet {
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "AC",
 			City:        "Rio Branco",
+			UserID:      1,
 		},
 	}
 }
