@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/internal/handler/pethandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/shelterhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
 )
@@ -25,6 +26,11 @@ func SetupRoutes() *gin.Engine {
 		shelters.GET("", shelterhandler.GetAllShelters)
 		shelters.PUT("/:id", shelterhandler.UpdateShelter)
 		shelters.DELETE("/:id", shelterhandler.DeleteShelter)
+	}
+
+	pets := r.Group("/pets")
+	{
+		pets.POST("", pethandler.CreatePet)
 	}
 
 	return r
