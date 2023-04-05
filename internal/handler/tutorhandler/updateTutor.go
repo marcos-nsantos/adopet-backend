@@ -33,8 +33,8 @@ func UpdateTutor(c *gin.Context) {
 	}
 
 	var req schemas.UserUpdateRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid request"})
+	if err = c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
 

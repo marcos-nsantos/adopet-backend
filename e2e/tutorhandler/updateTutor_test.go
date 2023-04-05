@@ -39,21 +39,35 @@ func TestUpdateTutor(t *testing.T) {
 		wantStatus int
 	}{
 		{
-			name:       "should return status 200",
-			id:         tutor.ID,
-			reqBody:    schemas.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
+			name: "should return status 200",
+			id:   tutor.ID,
+			reqBody: schemas.UserUpdateRequest{
+				Name:  "Tutor One Updated",
+				Email: "tutoroneupdated@email.com",
+				Phone: "99999999999",
+				Photo: "https://tutoroneupdatedphoto.com/tutor.jpg",
+				City:  "Rio Branco",
+				About: "Hi there, I am updated",
+			},
 			wantStatus: http.StatusOK,
 		},
 		{
-			name:       "should return status 422 when email is invalid or name is empty",
+			name:       "should return status 422 when body is invalid",
 			id:         tutor.ID,
 			reqBody:    schemas.UserUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
-			name:       "should return status 404 when tutor not found",
-			id:         999,
-			reqBody:    schemas.UserUpdateRequest{Name: "Tutor One Updated", Email: "tutoroneupdated@email.com"},
+			name: "should return status 404 when tutor not found",
+			id:   999,
+			reqBody: schemas.UserUpdateRequest{
+				Name:  "Tutor One Updated",
+				Email: "tutoroneupdated@email.com",
+				Phone: "99999999999",
+				Photo: "https://tutoroneupdatedphoto.com/tutor.jpg",
+				City:  "Rio Branco",
+				About: "Hi there, I am updated",
+			},
 			wantStatus: http.StatusNotFound,
 		},
 	}

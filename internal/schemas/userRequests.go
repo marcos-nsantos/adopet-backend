@@ -27,10 +27,10 @@ func (r *UserCreateRequest) ToEntity() entity.User {
 type UserUpdateRequest struct {
 	Name  string `json:"name" binding:"required"`
 	Email string `json:"email" binding:"required,email"`
-	Phone string `json:"phone"`
-	Photo string `json:"photo"`
-	City  string `json:"city"`
-	About string `json:"about"`
+	Phone string `json:"phone" binding:"required"`
+	Photo string `json:"photo" binding:"required"`
+	City  string `json:"city" binding:"required"`
+	About string `json:"about" binding:"required"`
 }
 
 func (t *UserUpdateRequest) ToEntity() entity.User {
