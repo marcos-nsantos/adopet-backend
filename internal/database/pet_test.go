@@ -28,7 +28,7 @@ func TestCreatePet(t *testing.T) {
 
 		assert.Equal(t, pet.Name, result.Name)
 		assert.Equal(t, pet.Description, result.Description)
-		assert.Equal(t, pet.IsAdopt, result.IsAdopt)
+		assert.Equal(t, pet.IsAdopted, result.IsAdopted)
 		assert.Equal(t, pet.Age, result.Age)
 		assert.Equal(t, pet.Photo, result.Photo)
 		assert.Equal(t, pet.UF, result.UF)
@@ -59,7 +59,7 @@ func TestGetPetByID(t *testing.T) {
 
 		assert.Equal(t, pet.Name, result.Name)
 		assert.Equal(t, pet.Description, result.Description)
-		assert.Equal(t, pet.IsAdopt, result.IsAdopt)
+		assert.Equal(t, pet.IsAdopted, result.IsAdopted)
 		assert.Equal(t, pet.Age, result.Age)
 		assert.Equal(t, pet.Photo, result.Photo)
 		assert.Equal(t, pet.UF, result.UF)
@@ -79,7 +79,7 @@ func TestGetPetByID(t *testing.T) {
 	})
 
 	t.Run("should not return a pet it is adopted", func(t *testing.T) {
-		result.IsAdopt = true
+		result.IsAdopted = true
 		DB.Save(&result)
 		_, err := GetPetByID(result.ID)
 		require.Error(t, err)

@@ -19,7 +19,7 @@ func ToPetResponse(pet entity.Pet) PetResponse {
 		ID:          pet.ID,
 		Name:        pet.Name,
 		Description: pet.Description,
-		IsAdopt:     pet.IsAdopt,
+		IsAdopt:     pet.IsAdopted,
 		Age:         pet.Age,
 		Photo:       pet.Photo,
 		UF:          pet.UF,

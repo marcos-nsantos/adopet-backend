@@ -70,7 +70,7 @@ func TestGetPetByID(t *testing.T) {
 				assert.Equal(t, pet.Description, bodyResult.Description)
 				assert.Equal(t, pet.Photo, bodyResult.Photo)
 				assert.Equal(t, pet.Age, bodyResult.Age)
-				assert.Equal(t, pet.IsAdopt, bodyResult.IsAdopt)
+				assert.Equal(t, pet.IsAdopted, bodyResult.IsAdopt)
 				assert.Equal(t, pet.UF, bodyResult.UF)
 				assert.Equal(t, pet.City, bodyResult.City)
 				assert.Equal(t, pet.UserID, bodyResult.ShelterID)

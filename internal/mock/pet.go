@@ -7,7 +7,7 @@ func Pet() []entity.Pet {
 		{
 			Name:        "Spike",
 			Description: "Spike is a very friendly dog. He loves to play and is very energetic. He is very good with children and other dogs. He is a very good dog.",
-			IsAdopt:     false,
+			IsAdopted:   false,
 			Age:         8,
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "SP",
@@ -17,7 +17,7 @@ func Pet() []entity.Pet {
 		{
 			Name:        "Luna",
 			Description: "A playful and energetic Labrador Retriever.",
-			IsAdopt:     false,
+			IsAdopted:   false,
 			Age:         5,
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "MG",
@@ -27,7 +27,7 @@ func Pet() []entity.Pet {
 		{
 			Name:        "Buddy",
 			Description: "A friendly and loyal Golden Retriever.",
-			IsAdopt:     true,
+			IsAdopted:   true,
 			Age:         7,
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "RJ",
@@ -37,7 +37,7 @@ func Pet() []entity.Pet {
 		{
 			Name:        "Simba",
 			Description: "A majestic and independent Persian cat.",
-			IsAdopt:     true,
+			IsAdopted:   true,
 			Age:         3,
 			Photo:       "https://some-cat-photo.jpg",
 			UF:          "AC",
@@ -47,7 +47,7 @@ func Pet() []entity.Pet {
 		{
 			Name:        "Max",
 			Description: "A curious and adventurous Beagle.",
-			IsAdopt:     false,
+			IsAdopted:   false,
 			Age:         2,
 			Photo:       "https://some-dog-photo.jpg",
 			UF:          "AC",
