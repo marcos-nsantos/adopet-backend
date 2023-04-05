@@ -31,6 +31,11 @@ func UpdatePet(pet entity.Pet) error {
 	return result.Error
 }
 
+func UpdateIsAdoptedPet(pet entity.Pet) error {
+	result := DB.Model(&pet).Update("is_adopted", pet.IsAdopted)
+	return result.Error
+}
+
 func DeletePet(id uint64) error {
 	return DB.Delete(&entity.Pet{}, id).Error
 }

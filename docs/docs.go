@@ -191,6 +191,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/pets/{id}/adopted": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "pet"
+                ],
+                "summary": "update a pet's adoption status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Pet id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Pet data",
+                        "name": "pet",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateIsAdoptPetRequests"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
         "/shelters": {
             "get": {
                 "produces": [
@@ -575,7 +621,7 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "isAdopt": {
+                "isAdopted": {
                     "type": "boolean"
                 },
                 "name": {
@@ -603,6 +649,9 @@ const docTemplate = `{
                 },
                 "description": {
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "isAdopt": {
                     "type": "boolean"
@@ -641,9 +690,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "isAdopt": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -672,6 +718,17 @@ const docTemplate = `{
                 },
                 "total": {
                     "type": "integer"
+                }
+            }
+        },
+        "schemas.UpdateIsAdoptPetRequests": {
+            "type": "object",
+            "required": [
+                "isAdopted"
+            ],
+            "properties": {
+                "isAdopted": {
+                    "type": "boolean"
                 }
             }
         },
@@ -736,8 +793,12 @@ const docTemplate = `{
         "schemas.UserUpdateRequest": {
             "type": "object",
             "required": [
+                "about",
+                "city",
                 "email",
-                "name"
+                "name",
+                "phone",
+                "photo"
             ],
             "properties": {
                 "about": {

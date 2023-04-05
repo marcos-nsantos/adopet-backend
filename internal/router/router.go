@@ -37,6 +37,7 @@ func SetupRoutes() *gin.Engine {
 		pets.GET("/:id", pethandler.GetPetByID)
 		pets.GET("", pethandler.GetAllPets)
 		pets.PUT("/:id", pethandler.UpdatePet)
+		pets.PATCH("/:id/adopted", pethandler.UpdateIsAdoptedPet)
 		pets.DELETE("/:id", pethandler.DeletePet)
 	}
 

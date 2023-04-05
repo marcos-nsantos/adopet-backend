@@ -3,6 +3,7 @@ package database
 import (
 	"testing"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -139,6 +140,28 @@ func TestUpdatePet(t *testing.T) {
 		require.NoError(t, err)
 
 		assert.Equal(t, result.Name, pet.Name)
+	})
+}
+
+func TestUpdateIsAdoptedPet(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	shelter := mock.Shelters()[0]
+	shelterCreated, err := CreateUser(shelter)
+	pet := mock.Pet()[0]
+	pet.UserID = shelterCreated.ID
+	result, err := CreatePet(pet)
+	require.NoError(t, err)
+
+	t.Run("should update a pet", func(t *testing.T) {
+		pet := entity.Pet{ID: result.ID, IsAdopted: true}
+		err := UpdateIsAdoptedPet(pet)
+		assert.NoError(t, err)
 	})
 }
 

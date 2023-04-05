@@ -45,3 +45,7 @@ func (p *PetUpdateRequests) ToEntity() entity.Pet {
 		City:        p.City,
 	}
 }
+
+type UpdateIsAdoptPetRequests struct {
+	IsAdopted bool `json:"isAdopted" binding:"required"`
+}
