@@ -20,8 +20,4 @@ tasks:
 
   e2e-test:
     cmds:
-      - docker-compose up -d --build db
       - go test -v ./e2e/...
-      - docker-compose down
-    env:
-      DATABASE_URL: "{{.DATABASE_URL}}"
