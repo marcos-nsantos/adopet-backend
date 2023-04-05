@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 	"github.com/marcos-nsantos/adopet-backend/internal/entity"
+	"github.com/marcos-nsantos/adopet-backend/internal/password"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
-	"github.com/marcos-nsantos/adopet-backend/pkg/password"
 )
 
 // CreateShelter handles request to create a shelter
