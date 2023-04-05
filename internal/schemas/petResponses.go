@@ -3,6 +3,7 @@ package schemas
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 
 type PetResponse struct {
+	ID          uint64 `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	IsAdopt     bool   `json:"isAdopt"`
@@ -15,6 +16,7 @@ type PetResponse struct {
 
 func ToPetResponse(pet entity.Pet) PetResponse {
 	return PetResponse{
+		ID:          pet.ID,
 		Name:        pet.Name,
 		Description: pet.Description,
 		IsAdopt:     pet.IsAdopt,

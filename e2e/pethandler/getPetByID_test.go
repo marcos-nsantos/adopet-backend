@@ -65,6 +65,7 @@ func TestGetPetByID(t *testing.T) {
 				err = json.Unmarshal(w.Body.Bytes(), &bodyResult)
 				require.NoError(t, err)
 
+				assert.NotEmpty(t, bodyResult.ID)
 				assert.Equal(t, pet.Name, bodyResult.Name)
 				assert.Equal(t, pet.Description, bodyResult.Description)
 				assert.Equal(t, pet.Photo, bodyResult.Photo)
