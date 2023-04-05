@@ -21,3 +21,7 @@ tasks:
   e2e-test:
     cmds:
       - go test -v ./e2e/...
+
+  generate-doc:
+    cmds:
+      - swag init -g .\cmd\server\main.go
