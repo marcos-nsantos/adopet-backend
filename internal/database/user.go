@@ -8,7 +8,7 @@ func CreateUser(user entity.User) (entity.User, error) {
 }
 
 func UpdateUser(tutor *entity.User) error {
-	return DB.Model(&tutor).Omit("id", "password").Save(tutor).Error
+	return DB.Model(&tutor).Omit("id", "password").Updates(tutor).Error
 }
 
 func DeleteUser(id uint64) error {
