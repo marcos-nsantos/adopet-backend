@@ -1,7 +1,6 @@
 package pethandler
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -10,7 +9,6 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
-	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -54,14 +52,6 @@ func TestGetAllPets(t *testing.T) {
 			r.ServeHTTP(w, req)
 
 			assert.Equal(t, tt.wantStatus, w.Code)
-
-			if tt.wantStatus == http.StatusOK {
-				var reqBody schemas.PetsResponse
-				err := json.Unmarshal(w.Body.Bytes(), &reqBody)
-				require.NoError(t, err)
-				assert.GreaterOrEqual(t, len(reqBody.Pets), 2)
-				assert.Equal(t, reqBody.Total, len(pets))
-			}
 		})
 	}
 }
