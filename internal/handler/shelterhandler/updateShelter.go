@@ -10,6 +10,18 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
+// UpdateShelter handles request to update a shelter
+//
+//	@Summary	Update a shelter
+//	@Tags		shelter
+//	@Accept		json
+//	@Produce	json
+//	@Param		id		path		uint						true	"Shelter id"
+//	@Param		shelter	body		schemas.UserUpdateRequest	true	"Shelter data"
+//	@Success	200		{object}	schemas.UserResponse
+//	@Failure	400
+//	@Failure	404
+//	@Router		/shelters/{id} [put]
 func UpdateShelter(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)

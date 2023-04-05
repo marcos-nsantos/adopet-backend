@@ -9,6 +9,17 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
+// CreatePet handles request to create a pet
+//
+//	@Summary	Create a pet
+//	@Tags		pet
+//	@Accept		json
+//	@Produce	json
+//	@Param		pet	body		schemas.PetCreateRequests	true	"Pet data"
+//	@Success	201	{object}	schemas.PetResponse
+//	@Failure	400
+//	@Failure	422
+//	@Router		/pets [post]
 func CreatePet(c *gin.Context) {
 	var req schemas.PetCreateRequests
 	if err := c.ShouldBindJSON(&req); err != nil {

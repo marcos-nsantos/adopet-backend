@@ -10,6 +10,15 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
+// GetAllShelters handles request to get all shelters
+//
+//	@Summary	Get all shelters
+//	@Tags		shelter
+//	@Produce	json
+//	@Param		page	query		int	false	"Page number"					default(1)
+//	@Param		limit	query		int	false	"Limit of shelters per page"	default(10)
+//	@Success	200		{object}	schemas.UsersResponse
+//	@Router		/shelters [get]
 func GetAllShelters(c *gin.Context) {
 	page, limit := queryShelters(c)
 

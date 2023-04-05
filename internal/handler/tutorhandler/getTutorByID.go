@@ -1,14 +1,25 @@
 package tutorhandler
 
 import (
-	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"net/http"
 	"strconv"
+
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 )
 
+// GetTutorByID handles request to get a tutor by id
+//
+//	@Summary	Get a tutor by id
+//	@Tags		tutor
+//	@Produce	json
+//	@Param		id	path		uint	true	"Tutor id"
+//	@Success	200	{object}	schemas.UserResponse
+//	@Failure	400
+//	@Failure	404
+//	@Router		/tutors/{id} [get]
 func GetTutorByID(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)

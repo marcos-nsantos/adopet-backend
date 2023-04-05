@@ -10,6 +10,19 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
+// UpdatePet handles request to update a pet
+//
+//	@Summary	Update a pet
+//	@Tags		pet
+//	@Accept		json
+//	@Produce	json
+//	@Param		id	path		uint						true	"Pet id"
+//	@Param		pet	body		schemas.PetUpdateRequests	true	"Pet data"
+//	@Success	200	{object}	schemas.PetResponse
+//	@Failure	400
+//	@Failure	404
+//	@Failure	422
+//	@Router		/pets/{id} [put]
 func UpdatePet(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)

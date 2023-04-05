@@ -2,9 +2,12 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/docs"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/pethandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/shelterhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
+	swaggerfiles "github.com/swaggo/files"
+	swagger "github.com/swaggo/gin-swagger"
 )
 
 func SetupRoutes() *gin.Engine {
@@ -36,6 +39,9 @@ func SetupRoutes() *gin.Engine {
 		pets.PUT("/:id", pethandler.UpdatePet)
 		pets.DELETE("/:id", pethandler.DeletePet)
 	}
+
+	docs.SwaggerInfo.Title = "Adopet API"
+	r.GET("/swagger/*any", swagger.WrapHandler(swaggerfiles.Handler))
 
 	return r
 }

@@ -9,6 +9,15 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 )
 
+// DeleteShelter handles request to delete a shelter
+//
+//	@Summary	Delete a shelter
+//	@Tags		shelter
+//	@Param		id	path	uint	true	"Shelter id"
+//	@Success	204
+//	@Failure	400
+//	@Failure	404
+//	@Router		/shelters/{id} [delete]
 func DeleteShelter(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)

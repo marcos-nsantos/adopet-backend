@@ -11,6 +11,18 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/pkg/password"
 )
 
+// CreateShelter handles request to create a shelter
+//
+//	@Summary	Create a shelter
+//	@Tags		shelter
+//	@Accept		json
+//	@Produce	json
+//	@Param		shelter	body		schemas.UserCreateRequest	true	"Shelter data"
+//	@Success	201		{object}	schemas.UserResponse
+//	@Failure	400
+//	@Failure	409
+//	@Failure	422
+//	@Router		/shelters [post]
 func CreateShelter(c *gin.Context) {
 	var req schemas.UserCreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

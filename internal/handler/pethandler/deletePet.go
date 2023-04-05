@@ -8,6 +8,15 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 )
 
+// DeletePet handles request to delete a pet
+//
+//	@Summary	Delete a pet
+//	@Tags		pet
+//	@Param		id	path	uint	true	"Pet id"
+//	@Success	204
+//	@Failure	400
+//	@Failure	404
+//	@Router		/pets/{id} [delete]
 func DeletePet(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)

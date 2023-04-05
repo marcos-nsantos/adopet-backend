@@ -10,6 +10,15 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
+// GetAllPets handles request to get all pets
+//
+//	@Summary	Get all pets
+//	@Tags		pet
+//	@Param		page	query	int	false	"Page number"				default(1)
+//	@Param		limit	query	int	false	"Number of pets per page"	default(10)
+//	@Produce	json
+//	@Success	200	{object}	schemas.PetsResponse
+//	@Router		/pets [get]
 func GetAllPets(c *gin.Context) {
 	page, limit := queryPets(c)
 

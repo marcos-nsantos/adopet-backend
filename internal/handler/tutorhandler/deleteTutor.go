@@ -9,6 +9,15 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 )
 
+// DeleteTutor handles request to delete a tutor by id
+//
+//	@Summary	Delete a tutor by id
+//	@Tags		tutor
+//	@Param		id	path		uint	true	"Tutor id"
+//	@Success	200	{object}	schemas.UserResponse
+//	@Failure	400
+//	@Failure	404
+//	@Router		/tutors/{id} [delete]
 func DeleteTutor(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)

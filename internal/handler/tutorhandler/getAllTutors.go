@@ -11,6 +11,15 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 )
 
+// GetAllTutors handles request to get all tutors
+//
+//	@Summary	Get all tutors
+//	@Tags		tutor
+//	@Produce	json
+//	@Param		page	query		int	false	"Page number"				default(1)
+//	@Param		limit	query		int	false	"Limit of tutors per page"	default(10)
+//	@Success	200		{object}	schemas.UsersResponse
+//	@Router		/tutors [get]
 func GetAllTutors(c *gin.Context) {
 	page, limit := queryTutors(c)
 

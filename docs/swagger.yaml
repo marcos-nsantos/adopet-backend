@@ -1,0 +1,509 @@
+definitions:
+  schemas.PetCreateRequests:
+    properties:
+      age:
+        type: integer
+      city:
+        type: string
+      description:
+        type: string
+      isAdopt:
+        type: boolean
+      name:
+        type: string
+      photo:
+        type: string
+      shelterId:
+        type: integer
+      uf:
+        type: string
+    required:
+    - age
+    - city
+    - description
+    - name
+    - photo
+    - shelterId
+    - uf
+    type: object
+  schemas.PetResponse:
+    properties:
+      age:
+        type: integer
+      city:
+        type: string
+      description:
+        type: string
+      isAdopt:
+        type: boolean
+      name:
+        type: string
+      photo:
+        type: string
+      shelterId:
+        type: integer
+      uf:
+        type: string
+    type: object
+  schemas.PetUpdateRequests:
+    properties:
+      age:
+        type: integer
+      city:
+        type: string
+      description:
+        type: string
+      isAdopt:
+        type: boolean
+      name:
+        type: string
+      photo:
+        type: string
+      uf:
+        type: string
+    required:
+    - age
+    - city
+    - description
+    - name
+    - photo
+    - uf
+    type: object
+  schemas.PetsResponse:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      pets:
+        items:
+          $ref: '#/definitions/schemas.PetResponse'
+        type: array
+      total:
+        type: integer
+    type: object
+  schemas.UserCreateRequest:
+    properties:
+      about:
+        type: string
+      city:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  schemas.UserResponse:
+    properties:
+      about:
+        type: string
+      city:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    type: object
+  schemas.UserUpdateRequest:
+    properties:
+      about:
+        type: string
+      city:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  schemas.UsersResponse:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      total:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /pets:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of pets per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.PetsResponse'
+      summary: Get all pets
+      tags:
+      - pet
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Pet data
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.PetCreateRequests'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/schemas.PetResponse'
+        "400":
+          description: Bad Request
+        "422":
+          description: Unprocessable Entity
+      summary: Create a pet
+      tags:
+      - pet
+  /pets/{id}:
+    delete:
+      parameters:
+      - description: Pet id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Delete a pet
+      tags:
+      - pet
+    get:
+      parameters:
+      - description: Pet id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.PetResponse'
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+      summary: Get a pet by id
+      tags:
+      - pet
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Pet id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Pet data
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.PetUpdateRequests'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.PetResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+      summary: Update a pet
+      tags:
+      - pet
+  /shelters:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Limit of shelters per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UsersResponse'
+      summary: Get all shelters
+      tags:
+      - shelter
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Shelter data
+        in: body
+        name: shelter
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/schemas.UserResponse'
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "422":
+          description: Unprocessable Entity
+      summary: Create a shelter
+      tags:
+      - shelter
+  /shelters/{id}:
+    delete:
+      parameters:
+      - description: Shelter id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Delete a shelter
+      tags:
+      - shelter
+    get:
+      parameters:
+      - description: Shelter id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UserResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Get a shelter by id
+      tags:
+      - shelter
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Shelter id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Shelter data
+        in: body
+        name: shelter
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UserResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Update a shelter
+      tags:
+      - shelter
+  /tutors:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Limit of tutors per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UsersResponse'
+      summary: Get all tutors
+      tags:
+      - tutor
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User data
+        in: body
+        name: tutor
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/schemas.UserResponse'
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      summary: Create a new tutor
+      tags:
+      - tutor
+  /tutors/{id}:
+    delete:
+      parameters:
+      - description: Tutor id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UserResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Delete a tutor by id
+      tags:
+      - tutor
+    get:
+      parameters:
+      - description: Tutor id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UserResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Get a tutor by id
+      tags:
+      - tutor
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tutor id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Tutor data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UserResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+      summary: Update a tutor
+      tags:
+      - tutor
+swagger: "2.0"

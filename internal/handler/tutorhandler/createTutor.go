@@ -1,16 +1,28 @@
 package tutorhandler
 
 import (
-	"github.com/marcos-nsantos/adopet-backend/internal/entity"
-	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"log"
 	"net/http"
+
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 	"github.com/marcos-nsantos/adopet-backend/pkg/password"
 )
 
+// CreateTutor handles request to create a new tutor
+//
+//	@Summary	Create a new tutor
+//	@Tags		tutor
+//	@Accept		json
+//	@Produce	json
+//	@Param		tutor	body		schemas.UserCreateRequest	true	"User data"
+//	@Success	201		{object}	schemas.UserResponse
+//	@Failure	400
+//	@Failure	409
+//	@Router		/tutors [post]
 func CreateTutor(c *gin.Context) {
 	var req schemas.UserCreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

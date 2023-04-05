@@ -1,15 +1,29 @@
 package tutorhandler
 
 import (
-	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 )
 
+// UpdateTutor handles request to update a tutor
+//
+//	@Summary	Update a tutor
+//	@Tags		tutor
+//	@Accept		json
+//	@Produce	json
+//	@Param		id		path		uint						true	"Tutor id"
+//	@Param		user	body		schemas.UserUpdateRequest	true	"Tutor data"
+//	@Success	200		{object}	schemas.UserResponse
+//	@Failure	400
+//	@Failure	404
+//	@Failure	422
+//	@Router		/tutors/{id} [put]
 func UpdateTutor(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)

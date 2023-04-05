@@ -9,6 +9,15 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
+// GetPetByID handles request to get a pet by id
+//
+//	@Summary	Get a pet by id
+//	@Tags		pet
+//	@Param		id	path		uint	true	"Pet id"
+//	@Success	200	{object}	schemas.PetResponse
+//	@Failure	404
+//	@Failure	422
+//	@Router		/pets/{id} [get]
 func GetPetByID(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseUint(idParam, 10, 64)
