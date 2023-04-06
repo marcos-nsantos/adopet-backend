@@ -9,7 +9,13 @@ import (
 )
 
 func main() {
-	database.Init()
+	environment := os.Getenv("GIN_MODE")
+	if environment == "release" {
+		database.InitGoogleCloudSQL()
+	} else {
+		database.Init()
+	}
+
 	database.Migrate()
 
 	port := os.Getenv("PORT")
