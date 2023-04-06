@@ -14,7 +14,7 @@ import (
 //	@Summary	Delete a tutor by id
 //	@Tags		tutor
 //	@Param		id	path		uint	true	"Tutor id"
-//	@Success	200	{object}	schemas.UserResponse
+//	@Success	204
 //	@Failure	400
 //	@Failure	404
 //	@Router		/tutors/{id} [delete]
@@ -37,5 +37,5 @@ func DeleteTutor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "tutor deleted"})
+	c.Status(http.StatusNoContent)
 }

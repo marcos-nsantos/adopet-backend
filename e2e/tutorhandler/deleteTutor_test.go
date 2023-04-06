@@ -36,7 +36,7 @@ func TestDeleteTutor(t *testing.T) {
 		{
 			name:       "should return status 204",
 			id:         tutorCreated.ID,
-			wantStatus: http.StatusOK,
+			wantStatus: http.StatusNoContent,
 		},
 		{
 			name:       "should return status 404 when tutor not found",
