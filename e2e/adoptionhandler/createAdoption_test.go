@@ -1,7 +1,6 @@
 package adoptionhandler
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,7 +8,9 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
@@ -40,21 +41,32 @@ func TestCreateAdoption(t *testing.T) {
 	tutorCreated, err := database.CreateTutor(tutor)
 	require.NoError(t, err)
 
+	tutorToken, err := auth.GenerateToken(shelterCreated.ID, entity.TutorType)
+	require.NoError(t, err)
+
 	tests := []struct {
-		name string
-		url  string
-		want int
+		name  string
+		url   string
+		token string
+		want  int
 	}{
 		{
-			name: "should adopt a pet",
+			name:  "should adopt a pet",
+			url:   fmt.Sprintf("/adoptions/%d/%d", petCreated.ID, tutorCreated.ID),
+			token: tutorToken,
+			want:  http.StatusCreated,
+		},
+		{
+			name: "should not adopt a pet when token is not provided",
 			url:  fmt.Sprintf("/adoptions/%d/%d", petCreated.ID, tutorCreated.ID),
-			want: http.StatusCreated,
+			want: http.StatusUnauthorized,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest(http.MethodPost, tt.url, bytes.NewBuffer([]byte{}))
+			req, err := http.NewRequest(http.MethodPost, tt.url, nil)
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()

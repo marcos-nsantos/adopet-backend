@@ -6,6 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
@@ -29,26 +31,38 @@ func TestGetAllUsers(t *testing.T) {
 	users := mock.Tutors()
 	database.DB.CreateInBatches(users, len(users))
 
+	tutorToken, err := auth.GenerateToken(users[0].ID, entity.TutorType)
+	require.NoError(t, err)
+
 	tests := []struct {
 		name       string
 		url        string
+		token      string
 		wantStatus int
 	}{
 		{
 			name:       "should return status 200",
 			url:        "/tutors",
+			token:      tutorToken,
 			wantStatus: http.StatusOK,
 		},
 		{
 			name:       "should return status 200",
 			url:        "/tutors?page=1&limit=2",
+			token:      tutorToken,
 			wantStatus: http.StatusOK,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			url:        "/tutors",
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			req, err := http.NewRequest(http.MethodGet, tt.url, nil)
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()

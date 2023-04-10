@@ -8,7 +8,9 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
@@ -31,9 +33,13 @@ func TestCreatePet(t *testing.T) {
 	require.NoError(t, err)
 	pet := mock.Pet()[0]
 
+	shelterToken, err := auth.GenerateToken(shelterCreated.ID, entity.ShelterType)
+	require.NoError(t, err)
+
 	tests := []struct {
 		name       string
 		reqBody    schemas.PetCreateRequests
+		token      string
 		wantStatus int
 	}{
 		{
@@ -48,6 +54,7 @@ func TestCreatePet(t *testing.T) {
 				City:        pet.City,
 				ShelterID:   shelterCreated.ID,
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusCreated,
 		},
 		{
@@ -62,7 +69,13 @@ func TestCreatePet(t *testing.T) {
 				City:        pet.City,
 				ShelterID:   shelterCreated.ID,
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusUnprocessableEntity,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			reqBody:    schemas.PetCreateRequests{},
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
@@ -72,6 +85,7 @@ func TestCreatePet(t *testing.T) {
 			require.NoError(t, err)
 
 			req, err := http.NewRequest(http.MethodPost, "/pets", bytes.NewBuffer(jsonBody))
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()

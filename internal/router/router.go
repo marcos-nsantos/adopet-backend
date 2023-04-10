@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/docs"
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/adoptionhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/pethandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/shelterhandler"
@@ -16,7 +17,8 @@ func SetupRoutes() *gin.Engine {
 
 	tutors := r.Group("/tutors")
 	{
-		tutors.POST("", tutorhandler.CreateTutor)
+		tutors.Use(auth.JWTAuth())
+
 		tutors.GET("/:id", tutorhandler.GetTutorByID)
 		tutors.GET("", tutorhandler.GetAllTutors)
 		tutors.PUT("/:id", tutorhandler.UpdateTutor)
@@ -25,7 +27,8 @@ func SetupRoutes() *gin.Engine {
 
 	shelters := r.Group("/shelters")
 	{
-		shelters.POST("", shelterhandler.CreateShelter)
+		shelters.Use(auth.JWTAuth())
+
 		shelters.GET("/:id", shelterhandler.GetShelterByID)
 		shelters.GET("", shelterhandler.GetAllShelters)
 		shelters.PUT("/:id", shelterhandler.UpdateShelter)
@@ -34,6 +37,8 @@ func SetupRoutes() *gin.Engine {
 
 	pets := r.Group("/pets")
 	{
+		pets.Use(auth.JWTAuth())
+
 		pets.POST("", pethandler.CreatePet)
 		pets.GET("/:id", pethandler.GetPetByID)
 		pets.GET("", pethandler.GetAllPets)
@@ -44,9 +49,14 @@ func SetupRoutes() *gin.Engine {
 
 	adoption := r.Group("/adoptions")
 	{
+		adoption.Use(auth.JWTAuth())
+
 		adoption.POST("/:petId/:tutorId", adoptionhandler.CreateAdoption)
 		adoption.DELETE("/:id", adoptionhandler.DeleteAdoption)
 	}
+
+	r.POST("tutors", tutorhandler.CreateTutor)
+	r.POST("shelters", shelterhandler.CreateShelter)
 
 	docs.SwaggerInfo.Title = "Adopet API"
 	r.GET("/swagger/*any", swagger.WrapHandler(swaggerfiles.Handler))

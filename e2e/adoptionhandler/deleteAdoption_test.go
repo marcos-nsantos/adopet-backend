@@ -1,13 +1,13 @@
 package adoptionhandler
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
 	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
@@ -46,25 +46,38 @@ func TestDeleteAdoption(t *testing.T) {
 	err = database.Adopt(&adoptionCreated)
 	require.NoError(t, err)
 
+	tutorToken, err := auth.GenerateToken(shelterCreated.ID, entity.TutorType)
+	require.NoError(t, err)
+
 	tests := []struct {
-		name string
-		id   uint64
+		name       string
+		id         uint64
+		token      string
+		wantStatus int
 	}{
 		{
-			name: "should delete adoption",
-			id:   adoptionCreated.ID,
+			name:       "should delete adoption",
+			id:         adoptionCreated.ID,
+			token:      tutorToken,
+			wantStatus: http.StatusNoContent,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			id:         adoptionCreated.ID,
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest(http.MethodDelete, fmt.Sprintf("/adoptions/%d", tt.id), bytes.NewBuffer([]byte{}))
+			req, err := http.NewRequest(http.MethodDelete, fmt.Sprintf("/adoptions/%d", tt.id), nil)
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()
 			r.ServeHTTP(w, req)
 
-			assert.Equal(t, http.StatusNoContent, w.Code)
+			assert.Equal(t, tt.wantStatus, w.Code)
 		})
 	}
 }

@@ -9,7 +9,9 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
@@ -31,10 +33,14 @@ func TestUpdateShelter(t *testing.T) {
 	shelter, err := database.CreateShelter(shelter)
 	require.NoError(t, err)
 
+	shelterToken, err := auth.GenerateToken(shelter.ID, entity.ShelterType)
+	require.NoError(t, err)
+
 	tests := []struct {
 		name       string
 		id         uint64
 		reqBody    schemas.ShelterUpdateRequest
+		token      string
 		wantStatus int
 	}{
 		{
@@ -48,6 +54,7 @@ func TestUpdateShelter(t *testing.T) {
 				About: "Shelter One Updated",
 				City:  "São Paulo",
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusOK,
 		},
 		{
@@ -60,6 +67,7 @@ func TestUpdateShelter(t *testing.T) {
 				Photo: "https://cdn.dribbble.com/userupload/2624051/file/original-0c2e27a535ca15358be82cb68805de49.png?compress=1&resize=752x",
 				About: "Shelter One Updated",
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
@@ -73,7 +81,13 @@ func TestUpdateShelter(t *testing.T) {
 				About: "Shelter One Updated",
 				City:  "São Paulo",
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusNotFound,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			id:         shelter.ID,
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
@@ -83,6 +97,7 @@ func TestUpdateShelter(t *testing.T) {
 			require.NoError(t, err)
 
 			req, err := http.NewRequest(http.MethodPut, fmt.Sprintf("/shelters/%d", tt.id), bytes.NewBuffer(reqBody))
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()
