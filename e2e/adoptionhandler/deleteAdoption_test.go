@@ -49,6 +49,9 @@ func TestDeleteAdoption(t *testing.T) {
 	tutorToken, err := auth.GenerateToken(shelterCreated.ID, entity.TutorType)
 	require.NoError(t, err)
 
+	shelterToken, err := auth.GenerateToken(shelterCreated.ID, entity.ShelterType)
+	require.NoError(t, err)
+
 	tests := []struct {
 		name       string
 		id         uint64
@@ -58,13 +61,19 @@ func TestDeleteAdoption(t *testing.T) {
 		{
 			name:       "should delete adoption",
 			id:         adoptionCreated.ID,
-			token:      tutorToken,
+			token:      shelterToken,
 			wantStatus: http.StatusNoContent,
 		},
 		{
 			name:       "should return status 401 when token is not provided",
 			id:         adoptionCreated.ID,
 			wantStatus: http.StatusUnauthorized,
+		},
+		{
+			name:       "should return status 422 when user is not a shelter",
+			id:         adoptionCreated.ID,
+			token:      tutorToken,
+			wantStatus: http.StatusUnprocessableEntity,
 		},
 	}
 

@@ -20,6 +20,17 @@ import (
 //	@Failure	422
 //	@Router		/adoption/{petId} [delete]
 func DeleteAdoption(c *gin.Context) {
+	userType, ok := c.Get("user_type")
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error while getting user type"})
+		return
+	}
+
+	if userType != entity.ShelterType {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": "only shelters can delete adoptions"})
+		return
+	}
+
 	idParam := c.Param("id")
 	if idParam == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
