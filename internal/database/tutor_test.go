@@ -143,3 +143,29 @@ func TestDeleteTutor(t *testing.T) {
 		assert.Error(t, err)
 	})
 }
+
+func TestGetIDAndPasswordByEmailFromTutor(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	tutor := mock.Tutors()[0]
+	tutorCreated, err := CreateTutor(tutor)
+	require.NoError(t, err)
+
+	t.Run("should get id and password by email", func(t *testing.T) {
+		id, password, err := GetIDAndPasswordByEmailFromTutor(tutorCreated.Email)
+		require.NoError(t, err)
+
+		assert.Equal(t, tutorCreated.ID, id)
+		assert.Equal(t, tutorCreated.Password, password)
+	})
+
+	t.Run("should return error when tutor not found", func(t *testing.T) {
+		_, _, err := GetIDAndPasswordByEmailFromTutor("otheremail@email.com")
+		require.Error(t, err)
+	})
+}

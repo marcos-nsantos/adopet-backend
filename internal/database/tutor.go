@@ -32,3 +32,9 @@ func UpdateTutor(tutor *entity.Tutor) error {
 func DeleteTutor(id uint64) error {
 	return DB.Delete(&entity.Tutor{}, id).Error
 }
+
+func GetIDAndPasswordByEmailFromTutor(email string) (uint64, string, error) {
+	var tutor entity.Tutor
+	result := DB.Select("id", "password").First(&tutor, "email = ?", email)
+	return tutor.ID, tutor.Password, result.Error
+}
