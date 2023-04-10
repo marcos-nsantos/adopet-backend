@@ -1,10 +1,12 @@
 package auth
 
 import (
+	"net/http"
 	"os"
 	"strconv"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -17,6 +19,44 @@ func GenerateToken(userID uint64, userType string) (string, error) {
 		"exp":       time.Now().Add(time.Hour * 1).Unix(),
 	})
 	return token.SignedString([]byte(secretKey))
+}
+
+func JWTAuth() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		authHeader := c.GetHeader("Authorization")
+		if authHeader == "" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token not provided"})
+			return
+		}
+
+		tokenString := authHeader[7:]
+		valid, err := validateToken(tokenString)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+			return
+		}
+
+		if !valid {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token is not valid"})
+			return
+		}
+
+		userID, err := getUserIDFromToken(tokenString)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		userType, err := getUserTypeFromToken(tokenString)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.Set("user_id", userID)
+		c.Set("user_type", userType)
+		c.Next()
+	}
 }
 
 func validateToken(tokenString string) (bool, error) {
