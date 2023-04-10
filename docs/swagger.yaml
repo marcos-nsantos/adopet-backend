@@ -10,6 +10,20 @@ definitions:
       tutorId:
         type: integer
     type: object
+  schemas.AuthRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    type: object
+  schemas.AuthResponse:
+    properties:
+      token:
+        type: string
+    type: object
   schemas.PetCreateRequests:
     properties:
       age:
@@ -276,6 +290,33 @@ paths:
       summary: Create an adoption
       tags:
       - adoptions
+  /auth/tutor:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Auth request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AuthResponse'
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Authenticate a tutor
+      tags:
+      - auth
   /pets:
     get:
       parameters:

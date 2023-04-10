@@ -5,6 +5,7 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/docs"
 	"github.com/marcos-nsantos/adopet-backend/internal/auth"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/adoptionhandler"
+	"github.com/marcos-nsantos/adopet-backend/internal/handler/authhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/pethandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/shelterhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
@@ -14,6 +15,11 @@ import (
 
 func SetupRoutes() *gin.Engine {
 	r := gin.Default()
+
+	authentication := r.Group("/auth")
+	{
+		authentication.POST("/tutor", authhandler.AuthenticateTutor)
+	}
 
 	tutors := r.Group("/tutors")
 	{
