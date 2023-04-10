@@ -15,6 +15,7 @@ type Tutor struct {
 	Photo     string
 	City      string `gorm:"type:varchar(255)"`
 	About     string
+	Adoptions []Adoption
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`

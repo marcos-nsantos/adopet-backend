@@ -45,9 +45,9 @@ func InitTest() {
 }
 
 func Migrate() {
-	DB.AutoMigrate(&entity.Tutor{}, &entity.Shelter{}, &entity.Pet{})
+	DB.AutoMigrate(&entity.Tutor{}, &entity.Shelter{}, &entity.Pet{}, &entity.Adoption{})
 }
 
 func DropTables() {
-	DB.Migrator().DropTable(&entity.Tutor{}, &entity.Shelter{}, &entity.Pet{})
+	DB.Migrator().DropTable(&entity.Tutor{}, &entity.Shelter{}, &entity.Pet{}, &entity.Adoption{})
 }
