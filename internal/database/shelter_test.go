@@ -141,3 +141,29 @@ func TestDeleteShelter(t *testing.T) {
 		assert.Error(t, err)
 	})
 }
+
+func TestGetIDAndPasswordByEmailFromShelter(t *testing.T) {
+	Init()
+	Migrate()
+
+	t.Cleanup(func() {
+		DropTables()
+	})
+
+	shelter := mock.Shelters()[0]
+	shelterCreated, err := CreateShelter(shelter)
+	require.NoError(t, err)
+
+	t.Run("should get id and password from shelter", func(t *testing.T) {
+		id, password, err := GetIDAndPasswordByEmailFromShelter(shelterCreated.Email)
+		require.NoError(t, err)
+
+		assert.Equal(t, shelterCreated.ID, id)
+		assert.Equal(t, shelterCreated.Password, password)
+	})
+
+	t.Run("should return error when shelter is not found", func(t *testing.T) {
+		_, _, err := GetIDAndPasswordByEmailFromShelter("othershelter@email.com")
+		require.Error(t, err)
+	})
+}

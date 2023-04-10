@@ -34,3 +34,9 @@ func DeleteShelter(id uint64) error {
 	result := DB.Delete(&entity.Shelter{}, id)
 	return result.Error
 }
+
+func GetIDAndPasswordByEmailFromShelter(email string) (uint64, string, error) {
+	var shelter entity.Shelter
+	result := DB.Select("id", "password").First(&shelter, "email = ?", email)
+	return shelter.ID, shelter.Password, result.Error
+}
