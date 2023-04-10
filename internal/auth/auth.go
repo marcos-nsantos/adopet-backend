@@ -59,3 +59,19 @@ func getUserIDFromToken(tokenString string) (uint64, error) {
 
 	return userID, nil
 }
+
+func getUserTypeFromToken(tokenString string) (string, error) {
+	token, err := parseToken(tokenString)
+	if err != nil {
+		return "", err
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return "", err
+	}
+
+	userType := claims["user_type"].(string)
+
+	return userType, nil
+}
