@@ -12,10 +12,11 @@ import (
 // GetShelterByID handles request to get a shelter by id
 //
 //	@Summary	Get a shelter by id
-//	@Tags		shelter
+//	@Tags		shelters
+//	@Security	Bearer
 //	@Produce	json
 //	@Param		id	path		uint	true	"Shelter id"
-//	@Success	200	{object}	schemas.UserResponse
+//	@Success	200	{object}	schemas.ShelterResponse
 //	@Failure	400
 //	@Failure	404
 //	@Router		/shelters/{id} [get]
@@ -33,5 +34,5 @@ func GetShelterByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, schemas.ToUserResponse(shelter))
+	c.JSON(http.StatusOK, schemas.ToShelterResponse(shelter))
 }

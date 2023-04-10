@@ -13,7 +13,8 @@ import (
 // GetAllPets handles request to get all pets
 //
 //	@Summary	Get all pets
-//	@Tags		pet
+//	@Tags		pets
+//	@Security	Bearer
 //	@Param		page	query	int	false	"Page number"				default(1)
 //	@Param		limit	query	int	false	"Number of pets per page"	default(10)
 //	@Produce	json

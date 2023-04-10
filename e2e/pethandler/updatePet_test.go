@@ -9,7 +9,9 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/marcos-nsantos/adopet-backend/internal/router"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
@@ -27,14 +29,23 @@ func TestUpdatePet(t *testing.T) {
 		database.DropTables()
 	})
 
+	shelter := mock.Shelters()[0]
+	shelter, err := database.CreateShelter(shelter)
+	require.NoError(t, err)
+
 	pet := mock.Pet()[0]
-	pet, err := database.CreatePet(pet)
+	pet.ShelterID = shelter.ID
+	pet, err = database.CreatePet(pet)
+	require.NoError(t, err)
+
+	shelterToken, err := auth.GenerateToken(shelter.ID, entity.ShelterType)
 	require.NoError(t, err)
 
 	tests := []struct {
 		name       string
 		id         uint64
 		reqBody    schemas.PetUpdateRequests
+		token      string
 		wantStatus int
 	}{
 		{
@@ -48,6 +59,7 @@ func TestUpdatePet(t *testing.T) {
 				UF:          "SP",
 				City:        "São Paulo",
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusOK,
 		},
 		{
@@ -61,6 +73,7 @@ func TestUpdatePet(t *testing.T) {
 				UF:          "SP",
 				City:        "São Paulo",
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
@@ -74,7 +87,13 @@ func TestUpdatePet(t *testing.T) {
 				UF:          "SP",
 				City:        "São Paulo",
 			},
+			token:      shelterToken,
 			wantStatus: http.StatusNotFound,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			id:         pet.ID,
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
@@ -85,6 +104,7 @@ func TestUpdatePet(t *testing.T) {
 
 			w := httptest.NewRecorder()
 			req, err := http.NewRequest(http.MethodPut, fmt.Sprintf("/pets/%d", tt.id), bytes.NewReader(reqBody))
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			r.ServeHTTP(w, req)

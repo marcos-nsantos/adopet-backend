@@ -12,7 +12,7 @@ import (
 // CreatePet handles request to create a pet
 //
 //	@Summary	Create a pet
-//	@Tags		pet
+//	@Tags		pets
 //	@Accept		json
 //	@Produce	json
 //	@Param		pet	body		schemas.PetCreateRequests	true	"Pet data"

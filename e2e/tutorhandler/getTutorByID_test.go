@@ -7,6 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
@@ -28,29 +30,41 @@ func TestGetTutorByID(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutorCreated, err := database.CreateUser(tutor)
+	tutorCreated, err := database.CreateTutor(tutor)
+	require.NoError(t, err)
+
+	tutorToken, err := auth.GenerateToken(tutorCreated.ID, entity.TutorType)
 	require.NoError(t, err)
 
 	tests := []struct {
 		name       string
 		id         uint64
+		token      string
 		wantStatus int
 	}{
 		{
 			name:       "should return status 200",
 			id:         tutorCreated.ID,
+			token:      tutorToken,
 			wantStatus: http.StatusOK,
 		},
 		{
 			name:       "should return status 404 when tutor not found",
 			id:         999,
+			token:      tutorToken,
 			wantStatus: http.StatusNotFound,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			id:         tutorCreated.ID,
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("/tutors/%d", tt.id), nil)
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()
@@ -58,17 +72,17 @@ func TestGetTutorByID(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var tutor schemas.UserResponse
-				err = json.Unmarshal(w.Body.Bytes(), &tutor)
+				var result schemas.TutorResponse
+				err = json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
 
-				assert.Equal(t, tutorCreated.ID, tutor.ID)
-				assert.Equal(t, tutorCreated.Name, tutor.Name)
-				assert.Equal(t, tutorCreated.Email, tutor.Email)
-				assert.Equal(t, tutorCreated.Phone, tutor.Phone)
-				assert.Equal(t, tutorCreated.Photo, tutor.Photo)
-				assert.Equal(t, tutorCreated.City, tutor.City)
-				assert.Equal(t, tutorCreated.About, tutor.About)
+				assert.Equal(t, tutorCreated.ID, result.ID)
+				assert.Equal(t, tutorCreated.Name, result.Name)
+				assert.Equal(t, tutorCreated.Email, result.Email)
+				assert.Equal(t, tutorCreated.Phone, result.Phone)
+				assert.Equal(t, tutorCreated.Photo, result.Photo)
+				assert.Equal(t, tutorCreated.City, result.City)
+				assert.Equal(t, tutorCreated.About, result.About)
 			}
 		})
 	}

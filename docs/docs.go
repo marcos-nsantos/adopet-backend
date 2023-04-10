@@ -15,13 +15,184 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/pets": {
-            "get": {
+        "/adoption/{petId}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "adoptions"
+                ],
+                "summary": "Delete an adoption",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Adoption id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/adoption/{tutorId}/{petId}": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "adoptions"
+                ],
+                "summary": "Create an adoption",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Tutor id",
+                        "name": "tutorId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Pet id",
+                        "name": "petId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AdoptionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/auth/shelter": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Authenticate a shelter",
+                "parameters": [
+                    {
+                        "description": "Auth request",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AuthResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/auth/tutor": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Authenticate a tutor",
+                "parameters": [
+                    {
+                        "description": "Auth request",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AuthResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/pets": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "pets"
                 ],
                 "summary": "Get all pets",
                 "parameters": [
@@ -57,7 +228,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Create a pet",
                 "parameters": [
@@ -89,8 +260,13 @@ const docTemplate = `{
         },
         "/pets/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Get a pet by id",
                 "parameters": [
@@ -118,6 +294,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -125,7 +306,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Update a pet",
                 "parameters": [
@@ -165,8 +346,13 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Delete a pet",
                 "parameters": [
@@ -193,6 +379,11 @@ const docTemplate = `{
         },
         "/pets/{id}/adopted": {
             "patch": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -200,7 +391,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "update a pet's adoption status",
                 "parameters": [
@@ -239,11 +430,16 @@ const docTemplate = `{
         },
         "/shelters": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Get all shelters",
                 "parameters": [
@@ -266,7 +462,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UsersResponse"
+                            "$ref": "#/definitions/schemas.SheltersResponse"
                         }
                     }
                 }
@@ -279,7 +475,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Create a shelter",
                 "parameters": [
@@ -289,7 +485,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserCreateRequest"
+                            "$ref": "#/definitions/schemas.ShelterCreationRequest"
                         }
                     }
                 ],
@@ -297,7 +493,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.ShelterResponse"
                         }
                     },
                     "400": {
@@ -314,11 +510,16 @@ const docTemplate = `{
         },
         "/shelters/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Get a shelter by id",
                 "parameters": [
@@ -334,7 +535,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.ShelterResponse"
                         }
                     },
                     "400": {
@@ -346,6 +547,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -353,7 +559,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Update a shelter",
                 "parameters": [
@@ -370,7 +576,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserUpdateRequest"
+                            "$ref": "#/definitions/schemas.TutorUpdateRequest"
                         }
                     }
                 ],
@@ -378,7 +584,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -390,8 +596,13 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Delete a shelter",
                 "parameters": [
@@ -418,11 +629,16 @@ const docTemplate = `{
         },
         "/tutors": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Get all tutors",
                 "parameters": [
@@ -445,7 +661,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UsersResponse"
+                            "$ref": "#/definitions/schemas.TutorsResponse"
                         }
                     }
                 }
@@ -468,7 +684,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserCreateRequest"
+                            "$ref": "#/definitions/schemas.TutorCreationRequest"
                         }
                     }
                 ],
@@ -476,7 +692,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -490,11 +706,16 @@ const docTemplate = `{
         },
         "/tutors/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Get a tutor by id",
                 "parameters": [
@@ -510,7 +731,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -522,6 +743,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -529,7 +755,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Update a tutor",
                 "parameters": [
@@ -546,7 +772,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserUpdateRequest"
+                            "$ref": "#/definitions/schemas.TutorUpdateRequest"
                         }
                     }
                 ],
@@ -554,7 +780,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -569,8 +795,13 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Delete a tutor by id",
                 "parameters": [
@@ -597,6 +828,45 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.AdoptionResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "petId": {
+                    "type": "integer"
+                },
+                "tutorId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.AuthRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AuthResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.PetCreateRequests": {
             "type": "object",
             "required": [
@@ -718,18 +988,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateIsAdoptPetRequests": {
-            "type": "object",
-            "required": [
-                "isAdopted"
-            ],
-            "properties": {
-                "isAdopted": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "schemas.UserCreateRequest": {
+        "schemas.ShelterCreationRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -761,7 +1020,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserResponse": {
+        "schemas.ShelterResponse": {
             "type": "object",
             "properties": {
                 "about": {
@@ -787,7 +1046,85 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserUpdateRequest": {
+        "schemas.SheltersResponse": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "shelters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ShelterResponse"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.TutorCreationRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.TutorResponse": {
+            "type": "object",
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.TutorUpdateRequest": {
             "type": "object",
             "required": [
                 "about",
@@ -818,7 +1155,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UsersResponse": {
+        "schemas.TutorsResponse": {
             "type": "object",
             "properties": {
                 "limit": {
@@ -830,13 +1167,32 @@ const docTemplate = `{
                 "total": {
                     "type": "integer"
                 },
-                "users": {
+                "tutors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/schemas.TutorResponse"
                     }
                 }
             }
+        },
+        "schemas.UpdateIsAdoptPetRequests": {
+            "type": "object",
+            "required": [
+                "isAdopted"
+            ],
+            "properties": {
+                "isAdopted": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "description": "Type \"Bearer\" followed by a space and JWT token",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

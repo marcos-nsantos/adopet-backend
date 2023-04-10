@@ -13,7 +13,8 @@ import (
 // UpdatePet handles request to update a pet
 //
 //	@Summary	Update a pet
-//	@Tags		pet
+//	@Tags		pets
+//	@Security	Bearer
 //	@Accept		json
 //	@Produce	json
 //	@Param		id	path		uint						true	"Pet id"

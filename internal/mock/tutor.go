@@ -2,14 +2,13 @@ package mock
 
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 
-func Tutors() []entity.User {
-	return []entity.User{
+func Tutors() []entity.Tutor {
+	return []entity.Tutor{
 		{
 			ID:       1,
 			Name:     "User One",
 			Email:    "tutorone@email.com",
 			Password: "secretPassword",
-			Type:     entity.Tutor,
 			Phone:    "123456789",
 			Photo:    "https://www.google.com",
 			City:     "São Paulo",
@@ -20,7 +19,6 @@ func Tutors() []entity.User {
 			Name:     "User Two",
 			Email:    "tutortwo@email.com",
 			Password: "secretPassword",
-			Type:     entity.Tutor,
 			Phone:    "123456789",
 			Photo:    "https://go.dev",
 			City:     "São Paulo",
@@ -31,7 +29,6 @@ func Tutors() []entity.User {
 			Name:     "User Three",
 			Email:    "tutorthree@email.com",
 			Password: "secretPassword",
-			Type:     entity.Tutor,
 			Phone:    "123456789",
 			Photo:    "https://pkg.go.dev",
 			City:     "São Paulo",
@@ -42,7 +39,6 @@ func Tutors() []entity.User {
 			Name:     "User Four",
 			Email:    "tutorfour@email.com",
 			Password: "secretPassword",
-			Type:     entity.Tutor,
 			Phone:    "123456789",
 			Photo:    "https://go.dev/play/",
 			City:     "São Paulo",
@@ -53,7 +49,6 @@ func Tutors() []entity.User {
 			Name:     "User Five",
 			Email:    "tutorfive@email.com",
 			Password: "secretPassword",
-			Type:     entity.Tutor,
 			Phone:    "123456789",
 			Photo:    "https://stackoverflow.com/",
 			City:     "São Paulo",

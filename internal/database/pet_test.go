@@ -18,12 +18,12 @@ func TestCreatePet(t *testing.T) {
 	})
 
 	user := mock.Shelters()[0]
-	shelterCreated, err := CreateUser(user)
+	shelterCreated, err := CreateShelter(user)
 	require.NoError(t, err)
 
 	t.Run("should create a pet", func(t *testing.T) {
 		pet := mock.Pet()[0]
-		pet.UserID = shelterCreated.ID
+		pet.ShelterID = shelterCreated.ID
 		result, err := CreatePet(pet)
 		require.NoError(t, err)
 
@@ -34,7 +34,7 @@ func TestCreatePet(t *testing.T) {
 		assert.Equal(t, pet.Photo, result.Photo)
 		assert.Equal(t, pet.UF, result.UF)
 		assert.Equal(t, pet.City, result.City)
-		assert.Equal(t, pet.UserID, result.UserID)
+		assert.Equal(t, pet.ShelterID, result.ShelterID)
 	})
 }
 
@@ -47,10 +47,10 @@ func TestGetPetByID(t *testing.T) {
 	})
 
 	user := mock.Shelters()[0]
-	shelterCreated, err := CreateUser(user)
+	shelterCreated, err := CreateShelter(user)
 	require.NoError(t, err)
 	pet := mock.Pet()[0]
-	pet.UserID = shelterCreated.ID
+	pet.ShelterID = shelterCreated.ID
 	result, err := CreatePet(pet)
 	require.NoError(t, err)
 
@@ -65,7 +65,7 @@ func TestGetPetByID(t *testing.T) {
 		assert.Equal(t, pet.Photo, result.Photo)
 		assert.Equal(t, pet.UF, result.UF)
 		assert.Equal(t, pet.City, result.City)
-		assert.Equal(t, pet.UserID, result.UserID)
+		assert.Equal(t, pet.ShelterID, result.ShelterID)
 	})
 
 	t.Run("should return error when pet is not found", func(t *testing.T) {
@@ -95,7 +95,7 @@ func TestGetAllPets(t *testing.T) {
 		DropTables()
 	})
 
-	_, err := CreateUser(mock.Shelters()[0])
+	_, err := CreateShelter(mock.Shelters()[0])
 	require.NoError(t, err)
 	pets := mock.Pet()
 	DB.CreateInBatches(pets, len(pets))
@@ -125,9 +125,9 @@ func TestUpdatePet(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelterCreated, err := CreateUser(shelter)
+	shelterCreated, err := CreateShelter(shelter)
 	pet := mock.Pet()[0]
-	pet.UserID = shelterCreated.ID
+	pet.ShelterID = shelterCreated.ID
 	result, err := CreatePet(pet)
 	require.NoError(t, err)
 
@@ -152,9 +152,9 @@ func TestUpdateIsAdoptedPet(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelterCreated, err := CreateUser(shelter)
+	shelterCreated, err := CreateShelter(shelter)
 	pet := mock.Pet()[0]
-	pet.UserID = shelterCreated.ID
+	pet.ShelterID = shelterCreated.ID
 	result, err := CreatePet(pet)
 	require.NoError(t, err)
 
@@ -174,9 +174,9 @@ func TestDeletePet(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelterCreated, err := CreateUser(shelter)
+	shelterCreated, err := CreateShelter(shelter)
 	pet := mock.Pet()[0]
-	pet.UserID = shelterCreated.ID
+	pet.ShelterID = shelterCreated.ID
 	result, err := CreatePet(pet)
 	require.NoError(t, err)
 

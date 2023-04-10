@@ -14,12 +14,13 @@ import (
 // UpdateTutor handles request to update a tutor
 //
 //	@Summary	Update a tutor
-//	@Tags		tutor
+//	@Tags		tutors
+//	@Security	Bearer
 //	@Accept		json
 //	@Produce	json
 //	@Param		id		path		uint						true	"Tutor id"
-//	@Param		user	body		schemas.UserUpdateRequest	true	"Tutor data"
-//	@Success	200		{object}	schemas.UserResponse
+//	@Param		user	body		schemas.TutorUpdateRequest	true	"Tutor data"
+//	@Success	200		{object}	schemas.TutorResponse
 //	@Failure	400
 //	@Failure	404
 //	@Failure	422
@@ -32,7 +33,7 @@ func UpdateTutor(c *gin.Context) {
 		return
 	}
 
-	var req schemas.UserUpdateRequest
+	var req schemas.TutorUpdateRequest
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
@@ -46,11 +47,11 @@ func UpdateTutor(c *gin.Context) {
 	tutor := req.ToEntity()
 	tutor.ID = id
 
-	if err = database.UpdateUser(&tutor); err != nil {
+	if err = database.UpdateTutor(&tutor); err != nil {
 		log.Println("error updating tutor", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error updating tutor"})
 		return
 	}
 
-	c.JSON(http.StatusOK, schemas.ToUserResponse(tutor))
+	c.JSON(http.StatusOK, schemas.ToTutorResponse(tutor))
 }

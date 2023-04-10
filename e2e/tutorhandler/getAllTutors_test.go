@@ -6,6 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
@@ -29,26 +31,38 @@ func TestGetAllUsers(t *testing.T) {
 	users := mock.Tutors()
 	database.DB.CreateInBatches(users, len(users))
 
+	tutorToken, err := auth.GenerateToken(users[0].ID, entity.TutorType)
+	require.NoError(t, err)
+
 	tests := []struct {
 		name       string
 		url        string
+		token      string
 		wantStatus int
 	}{
 		{
 			name:       "should return status 200",
 			url:        "/tutors",
+			token:      tutorToken,
 			wantStatus: http.StatusOK,
 		},
 		{
 			name:       "should return status 200",
 			url:        "/tutors?page=1&limit=2",
+			token:      tutorToken,
 			wantStatus: http.StatusOK,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			url:        "/tutors",
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			req, err := http.NewRequest(http.MethodGet, tt.url, nil)
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()
@@ -57,11 +71,12 @@ func TestGetAllUsers(t *testing.T) {
 			assert.Equal(t, tt.wantStatus, w.Code)
 
 			if tt.wantStatus == http.StatusOK {
-				var reqBody schemas.UsersResponse
-				err := json.Unmarshal(w.Body.Bytes(), &reqBody)
+				var result schemas.TutorsResponse
+				err := json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
-				assert.GreaterOrEqual(t, len(reqBody.Users), 2)
-				assert.Equal(t, reqBody.Total, len(users))
+
+				assert.GreaterOrEqual(t, len(result.Tutors), 2)
+				assert.Equal(t, result.Total, len(users))
 			}
 		})
 	}

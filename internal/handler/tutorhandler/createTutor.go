@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/password"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
@@ -18,13 +17,13 @@ import (
 //	@Tags		tutor
 //	@Accept		json
 //	@Produce	json
-//	@Param		tutor	body		schemas.UserCreateRequest	true	"User data"
-//	@Success	201		{object}	schemas.UserResponse
+//	@Param		tutor	body		schemas.TutorCreationRequest	true	"User data"
+//	@Success	201		{object}	schemas.TutorResponse
 //	@Failure	400
 //	@Failure	409
 //	@Router		/tutors [post]
 func CreateTutor(c *gin.Context) {
-	var req schemas.UserCreateRequest
+	var req schemas.TutorCreationRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
@@ -39,13 +38,11 @@ func CreateTutor(c *gin.Context) {
 	}
 
 	user.Password = passwordHashed
-	user.Type = entity.Tutor
-
-	tutor, err := database.CreateUser(user)
+	tutor, err := database.CreateTutor(user)
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "email is already in use"})
 		return
 	}
 
-	c.JSON(http.StatusCreated, schemas.ToUserResponse(tutor))
+	c.JSON(http.StatusCreated, schemas.ToTutorResponse(tutor))
 }

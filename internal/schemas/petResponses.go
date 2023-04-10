@@ -24,7 +24,7 @@ func ToPetResponse(pet entity.Pet) PetResponse {
 		Photo:       pet.Photo,
 		UF:          pet.UF,
 		City:        pet.City,
-		ShelterID:   pet.UserID,
+		ShelterID:   pet.ShelterID,
 	}
 }
 

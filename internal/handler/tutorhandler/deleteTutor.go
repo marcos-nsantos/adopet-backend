@@ -12,8 +12,9 @@ import (
 // DeleteTutor handles request to delete a tutor by id
 //
 //	@Summary	Delete a tutor by id
-//	@Tags		tutor
-//	@Param		id	path		uint	true	"Tutor id"
+//	@Tags		tutors
+//	@Security	Bearer
+//	@Param		id	path	uint	true	"Tutor id"
 //	@Success	204
 //	@Failure	400
 //	@Failure	404
@@ -31,7 +32,7 @@ func DeleteTutor(c *gin.Context) {
 		return
 	}
 
-	if err = database.DeleteUser(id); err != nil {
+	if err = database.DeleteTutor(id); err != nil {
 		log.Println("error deleting tutor", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error deleting tutor"})
 		return

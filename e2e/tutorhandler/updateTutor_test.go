@@ -8,6 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/auth"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
@@ -29,19 +31,23 @@ func TestUpdateTutor(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutor, err := database.CreateUser(tutor)
+	tutor, err := database.CreateTutor(tutor)
+	require.NoError(t, err)
+
+	tutorToken, err := auth.GenerateToken(tutor.ID, entity.TutorType)
 	require.NoError(t, err)
 
 	tests := []struct {
 		name       string
 		id         uint64
-		reqBody    schemas.UserUpdateRequest
+		reqBody    schemas.TutorUpdateRequest
+		token      string
 		wantStatus int
 	}{
 		{
 			name: "should return status 200",
 			id:   tutor.ID,
-			reqBody: schemas.UserUpdateRequest{
+			reqBody: schemas.TutorUpdateRequest{
 				Name:  "Tutor One Updated",
 				Email: "tutoroneupdated@email.com",
 				Phone: "99999999999",
@@ -49,18 +55,20 @@ func TestUpdateTutor(t *testing.T) {
 				City:  "Rio Branco",
 				About: "Hi there, I am updated",
 			},
+			token:      tutorToken,
 			wantStatus: http.StatusOK,
 		},
 		{
 			name:       "should return status 422 when body is invalid",
 			id:         tutor.ID,
-			reqBody:    schemas.UserUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
+			reqBody:    schemas.TutorUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
+			token:      tutorToken,
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
 			name: "should return status 404 when tutor not found",
 			id:   999,
-			reqBody: schemas.UserUpdateRequest{
+			reqBody: schemas.TutorUpdateRequest{
 				Name:  "Tutor One Updated",
 				Email: "tutoroneupdated@email.com",
 				Phone: "99999999999",
@@ -68,7 +76,14 @@ func TestUpdateTutor(t *testing.T) {
 				City:  "Rio Branco",
 				About: "Hi there, I am updated",
 			},
+			token:      tutorToken,
 			wantStatus: http.StatusNotFound,
+		},
+		{
+			name:       "should return status 401 when token is not provided",
+			id:         tutor.ID,
+			reqBody:    schemas.TutorUpdateRequest{},
+			wantStatus: http.StatusUnauthorized,
 		},
 	}
 
@@ -78,6 +93,7 @@ func TestUpdateTutor(t *testing.T) {
 			require.NoError(t, err)
 
 			req, err := http.NewRequest(http.MethodPut, fmt.Sprintf("/tutors/%d", tt.id), bytes.NewBuffer(reqBody))
+			req.Header.Set("Authorization", "Bearer "+tt.token)
 			require.NoError(t, err)
 
 			w := httptest.NewRecorder()
@@ -85,12 +101,12 @@ func TestUpdateTutor(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var tutor schemas.UserResponse
-				err = json.Unmarshal(w.Body.Bytes(), &tutor)
+				var result schemas.TutorResponse
+				err = json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
 
-				assert.Equal(t, tt.reqBody.Name, tutor.Name)
-				assert.Equal(t, tt.reqBody.Email, tutor.Email)
+				assert.Equal(t, tt.reqBody.Name, result.Name)
+				assert.Equal(t, tt.reqBody.Email, result.Email)
 			}
 		})
 	}
