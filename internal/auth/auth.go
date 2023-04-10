@@ -2,6 +2,7 @@ package auth
 
 import (
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -38,4 +39,23 @@ func parseToken(tokenString string) (*jwt.Token, error) {
 		}
 		return []byte(secretKey), nil
 	})
+}
+
+func getUserIDFromToken(tokenString string) (uint64, error) {
+	token, err := parseToken(tokenString)
+	if err != nil {
+		return 0, err
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return 0, err
+	}
+
+	userID, err := strconv.ParseUint(claims["user_id"].(string), 10, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	return userID, nil
 }
