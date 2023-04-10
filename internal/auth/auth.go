@@ -3,7 +3,7 @@ package auth
 import (
 	"net/http"
 	"os"
-	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +29,13 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 
-		tokenString := authHeader[7:]
+		authHeaderParts := strings.Split(authHeader, " ")
+		if len(authHeaderParts) != 2 || strings.ToLower(authHeaderParts[0]) != "bearer" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
+			return
+		}
+
+		tokenString := authHeaderParts[1]
 		valid, err := validateToken(tokenString)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
@@ -92,10 +98,8 @@ func getUserIDFromToken(tokenString string) (uint64, error) {
 		return 0, err
 	}
 
-	userID, err := strconv.ParseUint(claims["user_id"].(string), 10, 64)
-	if err != nil {
-		return 0, err
-	}
+	userIDFloat := claims["user_id"].(float64)
+	userID := uint64(userIDFloat)
 
 	return userID, nil
 }
