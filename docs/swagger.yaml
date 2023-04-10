@@ -229,6 +229,26 @@ definitions:
 info:
   contact: {}
 paths:
+  /adoption/{petId}:
+    delete:
+      parameters:
+      - description: Adoption id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "422":
+          description: Unprocessable Entity
+      summary: Delete an adoption
+      tags:
+      - adoptions
   /adoption/{tutorId}/{petId}:
     post:
       parameters:

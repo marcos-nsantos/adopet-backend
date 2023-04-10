@@ -45,6 +45,7 @@ func SetupRoutes() *gin.Engine {
 	adoption := r.Group("/adoptions")
 	{
 		adoption.POST("/:petId/:tutorId", adoptionhandler.CreateAdoption)
+		adoption.DELETE("/:id", adoptionhandler.DeleteAdoption)
 	}
 
 	docs.SwaggerInfo.Title = "Adopet API"
