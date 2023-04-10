@@ -15,6 +15,47 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/adoption/{tutorId}/{petId}": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "adoptions"
+                ],
+                "summary": "Create an adoption",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Tutor id",
+                        "name": "tutorId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Pet id",
+                        "name": "petId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AdoptionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
         "/pets": {
             "get": {
                 "produces": [
@@ -266,7 +307,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UsersResponse"
+                            "$ref": "#/definitions/schemas.SheltersResponse"
                         }
                     }
                 }
@@ -289,7 +330,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserCreateRequest"
+                            "$ref": "#/definitions/schemas.ShelterCreationRequest"
                         }
                     }
                 ],
@@ -297,7 +338,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.ShelterResponse"
                         }
                     },
                     "400": {
@@ -334,7 +375,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.ShelterResponse"
                         }
                     },
                     "400": {
@@ -370,7 +411,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserUpdateRequest"
+                            "$ref": "#/definitions/schemas.TutorUpdateRequest"
                         }
                     }
                 ],
@@ -378,7 +419,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -445,7 +486,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UsersResponse"
+                            "$ref": "#/definitions/schemas.TutorsResponse"
                         }
                     }
                 }
@@ -468,7 +509,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserCreateRequest"
+                            "$ref": "#/definitions/schemas.TutorCreationRequest"
                         }
                     }
                 ],
@@ -476,7 +517,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -510,7 +551,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -546,7 +587,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserUpdateRequest"
+                            "$ref": "#/definitions/schemas.TutorUpdateRequest"
                         }
                     }
                 ],
@@ -554,7 +595,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserResponse"
+                            "$ref": "#/definitions/schemas.TutorResponse"
                         }
                     },
                     "400": {
@@ -597,6 +638,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.AdoptionResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "petId": {
+                    "type": "integer"
+                },
+                "tutorId": {
+                    "type": "integer"
+                }
+            }
+        },
         "schemas.PetCreateRequests": {
             "type": "object",
             "required": [
@@ -718,18 +776,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateIsAdoptPetRequests": {
-            "type": "object",
-            "required": [
-                "isAdopted"
-            ],
-            "properties": {
-                "isAdopted": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "schemas.UserCreateRequest": {
+        "schemas.ShelterCreationRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -761,7 +808,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserResponse": {
+        "schemas.ShelterResponse": {
             "type": "object",
             "properties": {
                 "about": {
@@ -787,7 +834,85 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserUpdateRequest": {
+        "schemas.SheltersResponse": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "shelters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ShelterResponse"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.TutorCreationRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.TutorResponse": {
+            "type": "object",
+            "properties": {
+                "about": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.TutorUpdateRequest": {
             "type": "object",
             "required": [
                 "about",
@@ -818,7 +943,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UsersResponse": {
+        "schemas.TutorsResponse": {
             "type": "object",
             "properties": {
                 "limit": {
@@ -830,11 +955,22 @@ const docTemplate = `{
                 "total": {
                     "type": "integer"
                 },
-                "users": {
+                "tutors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/schemas.TutorResponse"
                     }
+                }
+            }
+        },
+        "schemas.UpdateIsAdoptPetRequests": {
+            "type": "object",
+            "required": [
+                "isAdopted"
+            ],
+            "properties": {
+                "isAdopted": {
+                    "type": "boolean"
                 }
             }
         }

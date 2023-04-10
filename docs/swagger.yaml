@@ -1,4 +1,15 @@
 definitions:
+  schemas.AdoptionResponse:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      petId:
+        type: integer
+      tutorId:
+        type: integer
+    type: object
   schemas.PetCreateRequests:
     properties:
       age:
@@ -82,14 +93,7 @@ definitions:
       total:
         type: integer
     type: object
-  schemas.UpdateIsAdoptPetRequests:
-    properties:
-      isAdopted:
-        type: boolean
-    required:
-    - isAdopted
-    type: object
-  schemas.UserCreateRequest:
+  schemas.ShelterCreationRequest:
     properties:
       about:
         type: string
@@ -111,7 +115,7 @@ definitions:
     - name
     - password
     type: object
-  schemas.UserResponse:
+  schemas.ShelterResponse:
     properties:
       about:
         type: string
@@ -128,7 +132,59 @@ definitions:
       photo:
         type: string
     type: object
-  schemas.UserUpdateRequest:
+  schemas.SheltersResponse:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      shelters:
+        items:
+          $ref: '#/definitions/schemas.ShelterResponse'
+        type: array
+      total:
+        type: integer
+    type: object
+  schemas.TutorCreationRequest:
+    properties:
+      about:
+        type: string
+      city:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  schemas.TutorResponse:
+    properties:
+      about:
+        type: string
+      city:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      photo:
+        type: string
+    type: object
+  schemas.TutorUpdateRequest:
     properties:
       about:
         type: string
@@ -150,7 +206,7 @@ definitions:
     - phone
     - photo
     type: object
-  schemas.UsersResponse:
+  schemas.TutorsResponse:
     properties:
       limit:
         type: integer
@@ -158,14 +214,48 @@ definitions:
         type: integer
       total:
         type: integer
-      users:
+      tutors:
         items:
-          $ref: '#/definitions/schemas.UserResponse'
+          $ref: '#/definitions/schemas.TutorResponse'
         type: array
+    type: object
+  schemas.UpdateIsAdoptPetRequests:
+    properties:
+      isAdopted:
+        type: boolean
+    required:
+    - isAdopted
     type: object
 info:
   contact: {}
 paths:
+  /adoption/{tutorId}/{petId}:
+    post:
+      parameters:
+      - description: Tutor id
+        in: path
+        name: tutorId
+        required: true
+        type: integer
+      - description: Pet id
+        in: path
+        name: petId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/schemas.AdoptionResponse'
+        "400":
+          description: Bad Request
+        "422":
+          description: Unprocessable Entity
+      summary: Create an adoption
+      tags:
+      - adoptions
   /pets:
     get:
       parameters:
@@ -330,7 +420,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UsersResponse'
+            $ref: '#/definitions/schemas.SheltersResponse'
       summary: Get all shelters
       tags:
       - shelter
@@ -343,14 +433,14 @@ paths:
         name: shelter
         required: true
         schema:
-          $ref: '#/definitions/schemas.UserCreateRequest'
+          $ref: '#/definitions/schemas.ShelterCreationRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/schemas.UserResponse'
+            $ref: '#/definitions/schemas.ShelterResponse'
         "400":
           description: Bad Request
         "409":
@@ -391,7 +481,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserResponse'
+            $ref: '#/definitions/schemas.ShelterResponse'
         "400":
           description: Bad Request
         "404":
@@ -413,14 +503,14 @@ paths:
         name: shelter
         required: true
         schema:
-          $ref: '#/definitions/schemas.UserUpdateRequest'
+          $ref: '#/definitions/schemas.TutorUpdateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserResponse'
+            $ref: '#/definitions/schemas.TutorResponse'
         "400":
           description: Bad Request
         "404":
@@ -447,7 +537,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UsersResponse'
+            $ref: '#/definitions/schemas.TutorsResponse'
       summary: Get all tutors
       tags:
       - tutor
@@ -460,14 +550,14 @@ paths:
         name: tutor
         required: true
         schema:
-          $ref: '#/definitions/schemas.UserCreateRequest'
+          $ref: '#/definitions/schemas.TutorCreationRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/schemas.UserResponse'
+            $ref: '#/definitions/schemas.TutorResponse'
         "400":
           description: Bad Request
         "409":
@@ -506,7 +596,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserResponse'
+            $ref: '#/definitions/schemas.TutorResponse'
         "400":
           description: Bad Request
         "404":
@@ -528,14 +618,14 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/schemas.UserUpdateRequest'
+          $ref: '#/definitions/schemas.TutorUpdateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserResponse'
+            $ref: '#/definitions/schemas.TutorResponse'
         "400":
           description: Bad Request
         "404":

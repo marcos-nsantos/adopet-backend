@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/docs"
+	"github.com/marcos-nsantos/adopet-backend/internal/handler/adoptionhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/pethandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/shelterhandler"
 	"github.com/marcos-nsantos/adopet-backend/internal/handler/tutorhandler"
@@ -39,6 +40,11 @@ func SetupRoutes() *gin.Engine {
 		pets.PUT("/:id", pethandler.UpdatePet)
 		pets.PATCH("/:id/adopted", pethandler.UpdateIsAdoptedPet)
 		pets.DELETE("/:id", pethandler.DeletePet)
+	}
+
+	adoption := r.Group("/adoptions")
+	{
+		adoption.POST("/:petId/:tutorId", adoptionhandler.CreateAdoption)
 	}
 
 	docs.SwaggerInfo.Title = "Adopet API"
