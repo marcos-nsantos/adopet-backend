@@ -11,9 +11,9 @@ import (
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
-// AuthenticateTutor is a handler that authenticates a tutor
+// AuthenticateShelter is a handler that authenticates a tutor
 //
-//	@Summary	Authenticate a tutor
+//	@Summary	Authenticate a shelter
 //	@Tags		auth
 //	@Accept		json
 //	@Produce	json
@@ -22,15 +22,15 @@ import (
 //	@Failure	400
 //	@Failure	401
 //	@Failure	500
-//	@Router		/auth/tutor [post]
-func AuthenticateTutor(c *gin.Context) {
+//	@Router		/auth/shelter [post]
+func AuthenticateShelter(c *gin.Context) {
 	var req schemas.AuthRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	id, passwordGot, err := database.GetIDAndPasswordByEmailFromTutor(req.Email)
+	id, passwordGot, err := database.GetIDAndPasswordByEmailFromShelter(req.Email)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "email or password is incorrect"})
 		return
@@ -41,7 +41,7 @@ func AuthenticateTutor(c *gin.Context) {
 		return
 	}
 
-	token, err := auth.GenerateToken(id, entity.TutorType)
+	token, err := auth.GenerateToken(id, entity.ShelterType)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error generating token"})
 		return

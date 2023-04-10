@@ -290,6 +290,33 @@ paths:
       summary: Create an adoption
       tags:
       - adoptions
+  /auth/shelter:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Auth request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AuthResponse'
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Authenticate a shelter
+      tags:
+      - auth
   /auth/tutor:
     post:
       consumes:

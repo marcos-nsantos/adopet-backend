@@ -19,6 +19,7 @@ func SetupRoutes() *gin.Engine {
 	authentication := r.Group("/auth")
 	{
 		authentication.POST("/tutor", authhandler.AuthenticateTutor)
+		authentication.POST("/shelter", authhandler.AuthenticateShelter)
 	}
 
 	tutors := r.Group("/tutors")
