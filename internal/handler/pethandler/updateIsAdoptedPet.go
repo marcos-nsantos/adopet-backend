@@ -13,7 +13,8 @@ import (
 // UpdateIsAdoptedPet handles request to update a pet's adoption status
 //
 //	@Summary	update a pet's adoption status
-//	@Tags		pet
+//	@Tags		pets
+//	@Security	Bearer
 //	@Accept		json
 //	@Produce	json
 //	@Param		id	path	uint								true	"Pet id"

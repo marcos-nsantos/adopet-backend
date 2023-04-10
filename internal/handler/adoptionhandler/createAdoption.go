@@ -14,6 +14,7 @@ import (
 //
 //	@Summary	Create an adoption
 //	@Tags		adoptions
+//	@Security	Bearer
 //	@Produce	json
 //	@Param		tutorId	path		uint64	true	"Tutor id"
 //	@Param		petId	path		uint64	true	"Pet id"

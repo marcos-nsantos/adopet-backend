@@ -12,7 +12,8 @@ import (
 // GetAllShelters handles request to get all shelters
 //
 //	@Summary	Get all shelters
-//	@Tags		shelter
+//	@Tags		shelters
+//	@Security	Bearer
 //	@Produce	json
 //	@Param		page	query		int	false	"Page number"					default(1)
 //	@Param		limit	query		int	false	"Limit of shelters per page"	default(10)

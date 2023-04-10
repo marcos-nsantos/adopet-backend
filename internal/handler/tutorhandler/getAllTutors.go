@@ -14,7 +14,8 @@ import (
 // GetAllTutors handles request to get all tutors
 //
 //	@Summary	Get all tutors
-//	@Tags		tutor
+//	@Tags		tutors
+//	@Security	Bearer
 //	@Produce	json
 //	@Param		page	query		int	false	"Page number"				default(1)
 //	@Param		limit	query		int	false	"Limit of tutors per page"	default(10)

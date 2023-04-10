@@ -13,7 +13,7 @@ import (
 // CreateShelter handles request to create a shelter
 //
 //	@Summary	Create a shelter
-//	@Tags		shelter
+//	@Tags		shelters
 //	@Accept		json
 //	@Produce	json
 //	@Param		shelter	body		schemas.ShelterCreationRequest	true	"Shelter data"

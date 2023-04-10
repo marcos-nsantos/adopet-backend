@@ -13,7 +13,8 @@ import (
 // GetTutorByID handles request to get a tutor by id
 //
 //	@Summary	Get a tutor by id
-//	@Tags		tutor
+//	@Tags		tutors
+//	@Security	Bearer
 //	@Produce	json
 //	@Param		id	path		uint	true	"Tutor id"
 //	@Success	200	{object}	schemas.TutorResponse

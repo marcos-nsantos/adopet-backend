@@ -13,7 +13,8 @@ import (
 // UpdateShelter handles request to update a shelter
 //
 //	@Summary	Update a shelter
-//	@Tags		shelter
+//	@Tags		shelters
+//	@Security	Bearer
 //	@Accept		json
 //	@Produce	json
 //	@Param		id		path		uint						true	"Shelter id"

@@ -12,7 +12,8 @@ import (
 // DeleteShelter handles request to delete a shelter
 //
 //	@Summary	Delete a shelter
-//	@Tags		shelter
+//	@Tags		shelters
+//	@Security	Bearer
 //	@Param		id	path	uint	true	"Shelter id"
 //	@Success	204
 //	@Failure	400

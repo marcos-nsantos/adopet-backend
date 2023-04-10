@@ -260,6 +260,8 @@ paths:
           description: Bad Request
         "422":
           description: Unprocessable Entity
+      security:
+      - Bearer: []
       summary: Delete an adoption
       tags:
       - adoptions
@@ -287,6 +289,8 @@ paths:
           description: Bad Request
         "422":
           description: Unprocessable Entity
+      security:
+      - Bearer: []
       summary: Create an adoption
       tags:
       - adoptions
@@ -364,9 +368,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.PetsResponse'
+      security:
+      - Bearer: []
       summary: Get all pets
       tags:
-      - pet
+      - pets
     post:
       consumes:
       - application/json
@@ -390,7 +396,7 @@ paths:
           description: Unprocessable Entity
       summary: Create a pet
       tags:
-      - pet
+      - pets
   /pets/{id}:
     delete:
       parameters:
@@ -406,9 +412,11 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
+      security:
+      - Bearer: []
       summary: Delete a pet
       tags:
-      - pet
+      - pets
     get:
       parameters:
       - description: Pet id
@@ -425,9 +433,11 @@ paths:
           description: Not Found
         "422":
           description: Unprocessable Entity
+      security:
+      - Bearer: []
       summary: Get a pet by id
       tags:
-      - pet
+      - pets
     put:
       consumes:
       - application/json
@@ -456,9 +466,11 @@ paths:
           description: Not Found
         "422":
           description: Unprocessable Entity
+      security:
+      - Bearer: []
       summary: Update a pet
       tags:
-      - pet
+      - pets
   /pets/{id}/adopted:
     patch:
       consumes:
@@ -486,9 +498,11 @@ paths:
           description: Not Found
         "422":
           description: Unprocessable Entity
+      security:
+      - Bearer: []
       summary: update a pet's adoption status
       tags:
-      - pet
+      - pets
   /shelters:
     get:
       parameters:
@@ -509,9 +523,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.SheltersResponse'
+      security:
+      - Bearer: []
       summary: Get all shelters
       tags:
-      - shelter
+      - shelters
     post:
       consumes:
       - application/json
@@ -537,7 +553,7 @@ paths:
           description: Unprocessable Entity
       summary: Create a shelter
       tags:
-      - shelter
+      - shelters
   /shelters/{id}:
     delete:
       parameters:
@@ -553,9 +569,11 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
+      security:
+      - Bearer: []
       summary: Delete a shelter
       tags:
-      - shelter
+      - shelters
     get:
       parameters:
       - description: Shelter id
@@ -574,9 +592,11 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
+      security:
+      - Bearer: []
       summary: Get a shelter by id
       tags:
-      - shelter
+      - shelters
     put:
       consumes:
       - application/json
@@ -603,9 +623,11 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
+      security:
+      - Bearer: []
       summary: Update a shelter
       tags:
-      - shelter
+      - shelters
   /tutors:
     get:
       parameters:
@@ -626,9 +648,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.TutorsResponse'
+      security:
+      - Bearer: []
       summary: Get all tutors
       tags:
-      - tutor
+      - tutors
     post:
       consumes:
       - application/json
@@ -668,9 +692,11 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
+      security:
+      - Bearer: []
       summary: Delete a tutor by id
       tags:
-      - tutor
+      - tutors
     get:
       parameters:
       - description: Tutor id
@@ -689,9 +715,11 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
+      security:
+      - Bearer: []
       summary: Get a tutor by id
       tags:
-      - tutor
+      - tutors
     put:
       consumes:
       - application/json
@@ -720,7 +748,15 @@ paths:
           description: Not Found
         "422":
           description: Unprocessable Entity
+      security:
+      - Bearer: []
       summary: Update a tutor
       tags:
-      - tutor
+      - tutors
+securityDefinitions:
+  Bearer:
+    description: Type "Bearer" followed by a space and JWT token
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

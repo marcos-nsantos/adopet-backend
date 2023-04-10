@@ -12,7 +12,8 @@ import (
 // DeleteTutor handles request to delete a tutor by id
 //
 //	@Summary	Delete a tutor by id
-//	@Tags		tutor
+//	@Tags		tutors
+//	@Security	Bearer
 //	@Param		id	path	uint	true	"Tutor id"
 //	@Success	204
 //	@Failure	400

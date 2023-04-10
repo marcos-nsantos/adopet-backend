@@ -12,7 +12,8 @@ import (
 // GetPetByID handles request to get a pet by id
 //
 //	@Summary	Get a pet by id
-//	@Tags		pet
+//	@Tags		pets
+//	@Security	Bearer
 //	@Param		id	path		uint	true	"Pet id"
 //	@Success	200	{object}	schemas.PetResponse
 //	@Failure	404

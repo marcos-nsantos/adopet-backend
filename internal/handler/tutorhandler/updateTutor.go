@@ -14,7 +14,8 @@ import (
 // UpdateTutor handles request to update a tutor
 //
 //	@Summary	Update a tutor
-//	@Tags		tutor
+//	@Tags		tutors
+//	@Security	Bearer
 //	@Accept		json
 //	@Produce	json
 //	@Param		id		path		uint						true	"Tutor id"

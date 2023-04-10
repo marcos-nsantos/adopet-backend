@@ -6,6 +6,11 @@
     "paths": {
         "/adoption/{petId}": {
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -37,6 +42,11 @@
         },
         "/adoption/{tutorId}/{petId}": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -162,11 +172,16 @@
         },
         "/pets": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Get all pets",
                 "parameters": [
@@ -202,7 +217,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Create a pet",
                 "parameters": [
@@ -234,8 +249,13 @@
         },
         "/pets/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Get a pet by id",
                 "parameters": [
@@ -263,6 +283,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -270,7 +295,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Update a pet",
                 "parameters": [
@@ -310,8 +335,13 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Delete a pet",
                 "parameters": [
@@ -338,6 +368,11 @@
         },
         "/pets/{id}/adopted": {
             "patch": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -345,7 +380,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "update a pet's adoption status",
                 "parameters": [
@@ -384,11 +419,16 @@
         },
         "/shelters": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Get all shelters",
                 "parameters": [
@@ -424,7 +464,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Create a shelter",
                 "parameters": [
@@ -459,11 +499,16 @@
         },
         "/shelters/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Get a shelter by id",
                 "parameters": [
@@ -491,6 +536,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -498,7 +548,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Update a shelter",
                 "parameters": [
@@ -535,8 +585,13 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Delete a shelter",
                 "parameters": [
@@ -563,11 +618,16 @@
         },
         "/tutors": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Get all tutors",
                 "parameters": [
@@ -635,11 +695,16 @@
         },
         "/tutors/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Get a tutor by id",
                 "parameters": [
@@ -667,6 +732,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -674,7 +744,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Update a tutor",
                 "parameters": [
@@ -714,8 +784,13 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Delete a tutor by id",
                 "parameters": [
@@ -1099,6 +1174,14 @@
                     "type": "boolean"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "description": "Type \"Bearer\" followed by a space and JWT token",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

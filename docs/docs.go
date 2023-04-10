@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/adoption/{petId}": {
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -48,6 +53,11 @@ const docTemplate = `{
         },
         "/adoption/{tutorId}/{petId}": {
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -173,11 +183,16 @@ const docTemplate = `{
         },
         "/pets": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Get all pets",
                 "parameters": [
@@ -213,7 +228,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Create a pet",
                 "parameters": [
@@ -245,8 +260,13 @@ const docTemplate = `{
         },
         "/pets/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Get a pet by id",
                 "parameters": [
@@ -274,6 +294,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -281,7 +306,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Update a pet",
                 "parameters": [
@@ -321,8 +346,13 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "Delete a pet",
                 "parameters": [
@@ -349,6 +379,11 @@ const docTemplate = `{
         },
         "/pets/{id}/adopted": {
             "patch": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -356,7 +391,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "pet"
+                    "pets"
                 ],
                 "summary": "update a pet's adoption status",
                 "parameters": [
@@ -395,11 +430,16 @@ const docTemplate = `{
         },
         "/shelters": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Get all shelters",
                 "parameters": [
@@ -435,7 +475,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Create a shelter",
                 "parameters": [
@@ -470,11 +510,16 @@ const docTemplate = `{
         },
         "/shelters/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Get a shelter by id",
                 "parameters": [
@@ -502,6 +547,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -509,7 +559,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Update a shelter",
                 "parameters": [
@@ -546,8 +596,13 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "shelter"
+                    "shelters"
                 ],
                 "summary": "Delete a shelter",
                 "parameters": [
@@ -574,11 +629,16 @@ const docTemplate = `{
         },
         "/tutors": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Get all tutors",
                 "parameters": [
@@ -646,11 +706,16 @@ const docTemplate = `{
         },
         "/tutors/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Get a tutor by id",
                 "parameters": [
@@ -678,6 +743,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -685,7 +755,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Update a tutor",
                 "parameters": [
@@ -725,8 +795,13 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Delete a tutor by id",
                 "parameters": [
@@ -1110,6 +1185,14 @@ const docTemplate = `{
                     "type": "boolean"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "description": "Type \"Bearer\" followed by a space and JWT token",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

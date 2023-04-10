@@ -12,7 +12,8 @@ import (
 // GetShelterByID handles request to get a shelter by id
 //
 //	@Summary	Get a shelter by id
-//	@Tags		shelter
+//	@Tags		shelters
+//	@Security	Bearer
 //	@Produce	json
 //	@Param		id	path		uint	true	"Shelter id"
 //	@Success	200	{object}	schemas.ShelterResponse

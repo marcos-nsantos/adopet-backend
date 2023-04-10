@@ -11,7 +11,8 @@ import (
 // DeletePet handles request to delete a pet
 //
 //	@Summary	Delete a pet
-//	@Tags		pet
+//	@Tags		pets
+//	@Security	Bearer
 //	@Param		id	path	uint	true	"Pet id"
 //	@Success	204
 //	@Failure	400

@@ -13,6 +13,7 @@ import (
 //
 //	@Summary	Delete an adoption
 //	@Tags		adoptions
+//	@Security	Bearer
 //	@Produce	json
 //	@Param		id	path	uint64	true	"Adoption id"
 //	@Success	204
