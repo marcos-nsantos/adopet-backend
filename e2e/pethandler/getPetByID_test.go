@@ -27,10 +27,11 @@ func TestGetPetByID(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelterCreated, err := database.CreateUser(shelter)
+	shelterCreated, err := database.CreateShelter(shelter)
 	require.NoError(t, err)
+
 	pet := mock.Pet()[0]
-	pet.UserID = shelterCreated.ID
+	pet.ShelterID = shelterCreated.ID
 	pet, err = database.CreatePet(pet)
 	require.NoError(t, err)
 
@@ -61,19 +62,19 @@ func TestGetPetByID(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var bodyResult schemas.PetResponse
-				err = json.Unmarshal(w.Body.Bytes(), &bodyResult)
+				var result schemas.PetResponse
+				err = json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
 
-				assert.NotEmpty(t, bodyResult.ID)
-				assert.Equal(t, pet.Name, bodyResult.Name)
-				assert.Equal(t, pet.Description, bodyResult.Description)
-				assert.Equal(t, pet.Photo, bodyResult.Photo)
-				assert.Equal(t, pet.Age, bodyResult.Age)
-				assert.Equal(t, pet.IsAdopted, bodyResult.IsAdopt)
-				assert.Equal(t, pet.UF, bodyResult.UF)
-				assert.Equal(t, pet.City, bodyResult.City)
-				assert.Equal(t, pet.UserID, bodyResult.ShelterID)
+				assert.NotEmpty(t, result.ID)
+				assert.Equal(t, pet.Name, result.Name)
+				assert.Equal(t, pet.Description, result.Description)
+				assert.Equal(t, pet.Photo, result.Photo)
+				assert.Equal(t, pet.Age, result.Age)
+				assert.Equal(t, pet.IsAdopted, result.IsAdopt)
+				assert.Equal(t, pet.UF, result.UF)
+				assert.Equal(t, pet.City, result.City)
+				assert.Equal(t, pet.ShelterID, result.ShelterID)
 			}
 		})
 	}

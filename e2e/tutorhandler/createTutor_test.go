@@ -28,16 +28,15 @@ func TestCreateTutor(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutor.Type = ""
 
 	tests := []struct {
 		name       string
-		reqBody    schemas.UserCreateRequest
+		reqBody    schemas.TutorCreationRequest
 		wantStatus int
 	}{
 		{
 			name: "should create a tutor and return status 201",
-			reqBody: schemas.UserCreateRequest{
+			reqBody: schemas.TutorCreationRequest{
 				Name:     tutor.Name,
 				Email:    tutor.Email,
 				Password: tutor.Password,
@@ -50,7 +49,7 @@ func TestCreateTutor(t *testing.T) {
 		},
 		{
 			name: "should return status 422 when name is empty",
-			reqBody: schemas.UserCreateRequest{
+			reqBody: schemas.TutorCreationRequest{
 				Name:     "",
 				Email:    tutor.Email,
 				Password: tutor.Password,
@@ -63,7 +62,7 @@ func TestCreateTutor(t *testing.T) {
 		},
 		{
 			name: "should return status 409 when email already exists",
-			reqBody: schemas.UserCreateRequest{
+			reqBody: schemas.TutorCreationRequest{
 				Name:     tutor.Name,
 				Email:    tutor.Email,
 				Password: tutor.Password,

@@ -28,19 +28,19 @@ func TestUpdateShelter(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelter, err := database.CreateUser(shelter)
+	shelter, err := database.CreateShelter(shelter)
 	require.NoError(t, err)
 
 	tests := []struct {
 		name       string
 		id         uint64
-		reqBody    schemas.UserUpdateRequest
+		reqBody    schemas.ShelterUpdateRequest
 		wantStatus int
 	}{
 		{
 			name: "should return status 200",
 			id:   shelter.ID,
-			reqBody: schemas.UserUpdateRequest{
+			reqBody: schemas.ShelterUpdateRequest{
 				Name:  "Shelter One Updated",
 				Email: "shelteroneupdated@email.com",
 				Phone: "123456729",
@@ -53,7 +53,7 @@ func TestUpdateShelter(t *testing.T) {
 		{
 			name: "should return status 422 when email is invalid or name is empty",
 			id:   shelter.ID,
-			reqBody: schemas.UserUpdateRequest{
+			reqBody: schemas.ShelterUpdateRequest{
 				Name:  "",
 				Email: "shelteroneupdatedemail.com",
 				Phone: "123456739",
@@ -65,7 +65,7 @@ func TestUpdateShelter(t *testing.T) {
 		{
 			name: "should return status 404 when shelter is not found",
 			id:   999,
-			reqBody: schemas.UserUpdateRequest{
+			reqBody: schemas.ShelterUpdateRequest{
 				Name:  "Shelter One Updated",
 				Email: "shelteroneupdated@email.com",
 				Phone: "123456739",
@@ -90,15 +90,15 @@ func TestUpdateShelter(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var shelterResp schemas.UserResponse
-				err = json.Unmarshal(w.Body.Bytes(), &shelterResp)
+				var result schemas.ShelterResponse
+				err = json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
 
-				assert.Equal(t, tt.reqBody.Name, shelterResp.Name)
-				assert.Equal(t, tt.reqBody.Email, shelterResp.Email)
-				assert.Equal(t, tt.reqBody.Phone, shelterResp.Phone)
-				assert.Equal(t, tt.reqBody.Photo, shelterResp.Photo)
-				assert.Equal(t, tt.reqBody.About, shelterResp.About)
+				assert.Equal(t, tt.reqBody.Name, result.Name)
+				assert.Equal(t, tt.reqBody.Email, result.Email)
+				assert.Equal(t, tt.reqBody.Phone, result.Phone)
+				assert.Equal(t, tt.reqBody.Photo, result.Photo)
+				assert.Equal(t, tt.reqBody.About, result.About)
 			}
 		})
 	}

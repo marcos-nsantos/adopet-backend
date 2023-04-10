@@ -31,7 +31,7 @@ func DeleteShelter(c *gin.Context) {
 		return
 	}
 
-	if err = database.DeleteUser(id); err != nil {
+	if err = database.DeleteShelter(id); err != nil {
 		log.Println("error deleting shelter", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error deleting shelter"})
 		return

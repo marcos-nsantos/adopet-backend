@@ -27,16 +27,15 @@ func TestCreateShelter(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelter.Type = ""
 
 	tests := []struct {
 		name       string
-		reqBody    schemas.UserCreateRequest
+		reqBody    schemas.ShelterCreationRequest
 		wantStatus int
 	}{
 		{
 			name: "should create a shelter and return status 201",
-			reqBody: schemas.UserCreateRequest{
+			reqBody: schemas.ShelterCreationRequest{
 				Name:     shelter.Name,
 				Email:    shelter.Email,
 				Password: shelter.Password,
@@ -49,7 +48,7 @@ func TestCreateShelter(t *testing.T) {
 		},
 		{
 			name: "should return status 422 when name is empty",
-			reqBody: schemas.UserCreateRequest{
+			reqBody: schemas.ShelterCreationRequest{
 				Name:     "",
 				Email:    shelter.Email,
 				Password: shelter.Password,
@@ -62,7 +61,7 @@ func TestCreateShelter(t *testing.T) {
 		},
 		{
 			name: "should return status 409 when email already exists",
-			reqBody: schemas.UserCreateRequest{
+			reqBody: schemas.ShelterCreationRequest{
 				Name:     shelter.Name,
 				Email:    shelter.Email,
 				Password: shelter.Password,

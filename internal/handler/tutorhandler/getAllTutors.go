@@ -18,7 +18,7 @@ import (
 //	@Produce	json
 //	@Param		page	query		int	false	"Page number"				default(1)
 //	@Param		limit	query		int	false	"Limit of tutors per page"	default(10)
-//	@Success	200		{object}	schemas.UsersResponse
+//	@Success	200		{object}	schemas.TutorsResponse
 //	@Router		/tutors [get]
 func GetAllTutors(c *gin.Context) {
 	page, limit := queryTutors(c)
@@ -30,7 +30,7 @@ func GetAllTutors(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, schemas.ToUsersResponse(tutors, page, limit, total))
+	c.JSON(http.StatusOK, schemas.ToTutorsResponses(tutors, page, limit, total))
 }
 
 func queryTutors(c *gin.Context) (int, int) {

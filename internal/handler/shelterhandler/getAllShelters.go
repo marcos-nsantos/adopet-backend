@@ -1,7 +1,6 @@
 package shelterhandler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -17,19 +16,18 @@ import (
 //	@Produce	json
 //	@Param		page	query		int	false	"Page number"					default(1)
 //	@Param		limit	query		int	false	"Limit of shelters per page"	default(10)
-//	@Success	200		{object}	schemas.UsersResponse
+//	@Success	200		{object}	schemas.SheltersResponse
 //	@Router		/shelters [get]
 func GetAllShelters(c *gin.Context) {
 	page, limit := queryShelters(c)
 
 	shelters, total, err := database.GetAllShelters(page, limit)
 	if err != nil {
-		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting shelters"})
 		return
 	}
 
-	c.JSON(http.StatusOK, schemas.ToUsersResponse(shelters, page, limit, total))
+	c.JSON(http.StatusOK, schemas.ToSheltersResponse(shelters, page, limit, total))
 }
 
 func queryShelters(c *gin.Context) (int, int) {

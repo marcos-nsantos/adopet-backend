@@ -27,7 +27,7 @@ func TestGetShelterByID(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelterCreated, err := database.CreateUser(shelter)
+	shelterCreated, err := database.CreateShelter(shelter)
 	require.NoError(t, err)
 
 	tests := []struct {
@@ -57,17 +57,17 @@ func TestGetShelterByID(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var shelterResponse schemas.UserResponse
-				err = json.Unmarshal(w.Body.Bytes(), &shelterResponse)
+				var result schemas.ShelterResponse
+				err = json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
 
-				assert.Equal(t, shelterCreated.ID, shelterResponse.ID)
-				assert.Equal(t, shelterCreated.Name, shelterResponse.Name)
-				assert.Equal(t, shelterCreated.Email, shelterResponse.Email)
-				assert.Equal(t, shelterCreated.Phone, shelterResponse.Phone)
-				assert.Equal(t, shelterCreated.Photo, shelterResponse.Photo)
-				assert.Equal(t, shelterCreated.City, shelterResponse.City)
-				assert.Equal(t, shelterCreated.About, shelterResponse.About)
+				assert.Equal(t, shelterCreated.ID, result.ID)
+				assert.Equal(t, shelterCreated.Name, result.Name)
+				assert.Equal(t, shelterCreated.Email, result.Email)
+				assert.Equal(t, shelterCreated.Phone, result.Phone)
+				assert.Equal(t, shelterCreated.Photo, result.Photo)
+				assert.Equal(t, shelterCreated.City, result.City)
+				assert.Equal(t, shelterCreated.About, result.About)
 			}
 		})
 	}

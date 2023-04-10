@@ -25,7 +25,7 @@ func TestDeleteTutor(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutorCreated, err := database.CreateUser(tutor)
+	tutorCreated, err := database.CreateTutor(tutor)
 	require.NoError(t, err)
 
 	tests := []struct {

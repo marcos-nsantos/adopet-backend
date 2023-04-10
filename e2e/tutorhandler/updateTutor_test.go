@@ -29,19 +29,19 @@ func TestUpdateTutor(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutor, err := database.CreateUser(tutor)
+	tutor, err := database.CreateTutor(tutor)
 	require.NoError(t, err)
 
 	tests := []struct {
 		name       string
 		id         uint64
-		reqBody    schemas.UserUpdateRequest
+		reqBody    schemas.TutorUpdateRequest
 		wantStatus int
 	}{
 		{
 			name: "should return status 200",
 			id:   tutor.ID,
-			reqBody: schemas.UserUpdateRequest{
+			reqBody: schemas.TutorUpdateRequest{
 				Name:  "Tutor One Updated",
 				Email: "tutoroneupdated@email.com",
 				Phone: "99999999999",
@@ -54,13 +54,13 @@ func TestUpdateTutor(t *testing.T) {
 		{
 			name:       "should return status 422 when body is invalid",
 			id:         tutor.ID,
-			reqBody:    schemas.UserUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
+			reqBody:    schemas.TutorUpdateRequest{Name: "", Email: "tutoroneupdatedemail.com"},
 			wantStatus: http.StatusUnprocessableEntity,
 		},
 		{
 			name: "should return status 404 when tutor not found",
 			id:   999,
-			reqBody: schemas.UserUpdateRequest{
+			reqBody: schemas.TutorUpdateRequest{
 				Name:  "Tutor One Updated",
 				Email: "tutoroneupdated@email.com",
 				Phone: "99999999999",
@@ -85,12 +85,12 @@ func TestUpdateTutor(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var tutor schemas.UserResponse
-				err = json.Unmarshal(w.Body.Bytes(), &tutor)
+				var result schemas.TutorResponse
+				err = json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
 
-				assert.Equal(t, tt.reqBody.Name, tutor.Name)
-				assert.Equal(t, tt.reqBody.Email, tutor.Email)
+				assert.Equal(t, tt.reqBody.Name, result.Name)
+				assert.Equal(t, tt.reqBody.Email, result.Email)
 			}
 		})
 	}

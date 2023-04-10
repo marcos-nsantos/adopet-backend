@@ -15,7 +15,7 @@ import (
 //	@Tags		shelter
 //	@Produce	json
 //	@Param		id	path		uint	true	"Shelter id"
-//	@Success	200	{object}	schemas.UserResponse
+//	@Success	200	{object}	schemas.ShelterResponse
 //	@Failure	400
 //	@Failure	404
 //	@Router		/shelters/{id} [get]
@@ -33,5 +33,5 @@ func GetShelterByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, schemas.ToUserResponse(shelter))
+	c.JSON(http.StatusOK, schemas.ToShelterResponse(shelter))
 }

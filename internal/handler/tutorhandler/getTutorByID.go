@@ -16,7 +16,7 @@ import (
 //	@Tags		tutor
 //	@Produce	json
 //	@Param		id	path		uint	true	"Tutor id"
-//	@Success	200	{object}	schemas.UserResponse
+//	@Success	200	{object}	schemas.TutorResponse
 //	@Failure	400
 //	@Failure	404
 //	@Router		/tutors/{id} [get]
@@ -34,5 +34,5 @@ func GetTutorByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, schemas.ToUserResponse(tutor))
+	c.JSON(http.StatusOK, schemas.ToTutorResponse(tutor))
 }

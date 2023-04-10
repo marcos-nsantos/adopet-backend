@@ -17,8 +17,8 @@ import (
 //	@Accept		json
 //	@Produce	json
 //	@Param		id		path		uint						true	"Shelter id"
-//	@Param		shelter	body		schemas.UserUpdateRequest	true	"Shelter data"
-//	@Success	200		{object}	schemas.UserResponse
+//	@Param		shelter	body		schemas.TutorUpdateRequest	true	"Shelter data"
+//	@Success	200		{object}	schemas.TutorResponse
 //	@Failure	400
 //	@Failure	404
 //	@Router		/shelters/{id} [put]
@@ -30,7 +30,7 @@ func UpdateShelter(c *gin.Context) {
 		return
 	}
 
-	var req schemas.UserUpdateRequest
+	var req schemas.ShelterUpdateRequest
 	if err = c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
@@ -44,11 +44,11 @@ func UpdateShelter(c *gin.Context) {
 	shelter := req.ToEntity()
 	shelter.ID = id
 
-	if err = database.UpdateUser(&shelter); err != nil {
+	if err = database.UpdateShelter(&shelter); err != nil {
 		log.Println("error updating shelter", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error updating shelter"})
 		return
 	}
 
-	c.JSON(http.StatusOK, schemas.ToUserResponse(shelter))
+	c.JSON(http.StatusOK, schemas.ToShelterResponse(shelter))
 }

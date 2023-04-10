@@ -2,7 +2,7 @@ package schemas
 
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 
-type UserCreateRequest struct {
+type ShelterCreationRequest struct {
 	Name     string `json:"name" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required,min=6"`
@@ -12,8 +12,8 @@ type UserCreateRequest struct {
 	About    string `json:"about"`
 }
 
-func (r *UserCreateRequest) ToEntity() entity.User {
-	return entity.User{
+func (r *ShelterCreationRequest) ToEntity() entity.Shelter {
+	return entity.Shelter{
 		Name:     r.Name,
 		Email:    r.Email,
 		Password: r.Password,
@@ -24,7 +24,7 @@ func (r *UserCreateRequest) ToEntity() entity.User {
 	}
 }
 
-type UserUpdateRequest struct {
+type ShelterUpdateRequest struct {
 	Name  string `json:"name" binding:"required"`
 	Email string `json:"email" binding:"required,email"`
 	Phone string `json:"phone" binding:"required"`
@@ -33,8 +33,8 @@ type UserUpdateRequest struct {
 	About string `json:"about" binding:"required"`
 }
 
-func (t *UserUpdateRequest) ToEntity() entity.User {
-	return entity.User{
+func (t *ShelterUpdateRequest) ToEntity() entity.Shelter {
+	return entity.Shelter{
 		Name:  t.Name,
 		Email: t.Email,
 		Phone: t.Phone,

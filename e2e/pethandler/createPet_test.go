@@ -27,7 +27,7 @@ func TestCreatePet(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelterCreated, err := database.CreateUser(shelter)
+	shelterCreated, err := database.CreateShelter(shelter)
 	require.NoError(t, err)
 	pet := mock.Pet()[0]
 
@@ -46,7 +46,7 @@ func TestCreatePet(t *testing.T) {
 				IsAdopted:   pet.IsAdopted,
 				UF:          pet.UF,
 				City:        pet.City,
-				UserID:      shelterCreated.ID,
+				ShelterID:   shelterCreated.ID,
 			},
 			wantStatus: http.StatusCreated,
 		},
@@ -60,7 +60,7 @@ func TestCreatePet(t *testing.T) {
 				IsAdopted:   pet.IsAdopted,
 				UF:          pet.UF,
 				City:        pet.City,
-				UserID:      shelterCreated.ID,
+				ShelterID:   shelterCreated.ID,
 			},
 			wantStatus: http.StatusUnprocessableEntity,
 		},

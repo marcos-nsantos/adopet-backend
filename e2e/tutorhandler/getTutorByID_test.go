@@ -28,7 +28,7 @@ func TestGetTutorByID(t *testing.T) {
 	})
 
 	tutor := mock.Tutors()[0]
-	tutorCreated, err := database.CreateUser(tutor)
+	tutorCreated, err := database.CreateTutor(tutor)
 	require.NoError(t, err)
 
 	tests := []struct {
@@ -58,17 +58,17 @@ func TestGetTutorByID(t *testing.T) {
 
 			assert.Equal(t, tt.wantStatus, w.Code)
 			if tt.wantStatus == http.StatusOK {
-				var tutor schemas.UserResponse
-				err = json.Unmarshal(w.Body.Bytes(), &tutor)
+				var result schemas.TutorResponse
+				err = json.Unmarshal(w.Body.Bytes(), &result)
 				require.NoError(t, err)
 
-				assert.Equal(t, tutorCreated.ID, tutor.ID)
-				assert.Equal(t, tutorCreated.Name, tutor.Name)
-				assert.Equal(t, tutorCreated.Email, tutor.Email)
-				assert.Equal(t, tutorCreated.Phone, tutor.Phone)
-				assert.Equal(t, tutorCreated.Photo, tutor.Photo)
-				assert.Equal(t, tutorCreated.City, tutor.City)
-				assert.Equal(t, tutorCreated.About, tutor.About)
+				assert.Equal(t, tutorCreated.ID, result.ID)
+				assert.Equal(t, tutorCreated.Name, result.Name)
+				assert.Equal(t, tutorCreated.Email, result.Email)
+				assert.Equal(t, tutorCreated.Phone, result.Phone)
+				assert.Equal(t, tutorCreated.Photo, result.Photo)
+				assert.Equal(t, tutorCreated.City, result.City)
+				assert.Equal(t, tutorCreated.About, result.About)
 			}
 		})
 	}

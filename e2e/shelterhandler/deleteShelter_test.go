@@ -25,7 +25,7 @@ func TestDeleteShelter(t *testing.T) {
 	})
 
 	shelter := mock.Shelters()[0]
-	shelterCreated, err := database.CreateUser(shelter)
+	shelterCreated, err := database.CreateShelter(shelter)
 	require.NoError(t, err)
 
 	tests := []struct {

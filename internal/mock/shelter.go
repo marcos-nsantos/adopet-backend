@@ -2,14 +2,13 @@ package mock
 
 import "github.com/marcos-nsantos/adopet-backend/internal/entity"
 
-func Shelters() []entity.User {
-	return []entity.User{
+func Shelters() []entity.Shelter {
+	return []entity.Shelter{
 		{
 			ID:       1,
 			Name:     "Shelter One",
 			Email:    "shelterone@email.com",
 			Password: "secretPassword",
-			Type:     entity.Shelter,
 			Phone:    "123456781",
 			Photo:    "https://go.dev/blog/gopher/header.jpg",
 			City:     "São Paulo",
@@ -20,7 +19,6 @@ func Shelters() []entity.User {
 			Name:     "Shelter Two",
 			Email:    "sheltertwo@email.com",
 			Password: "secretPassword",
-			Type:     entity.Shelter,
 			Phone:    "123456782",
 			City:     "São Paulo",
 			About:    "It's shelter two",
@@ -30,7 +28,6 @@ func Shelters() []entity.User {
 			Name:     "Shelter Three",
 			Email:    "shelterthree@email.com",
 			Password: "secretPassword",
-			Type:     entity.Shelter,
 			Phone:    "123456783",
 			Photo:    "https://go.dev/blog/gopher/header.jpg",
 			City:     "São Paulo",
@@ -41,7 +38,6 @@ func Shelters() []entity.User {
 			Name:     "Shelter Four",
 			Email:    "shelterfour@email.com",
 			Password: "secretPassword",
-			Type:     entity.Shelter,
 			Phone:    "123456784",
 			Photo:    "https://go.dev/blog/gopher/header.jpg",
 			City:     "São Paulo",
@@ -52,7 +48,6 @@ func Shelters() []entity.User {
 			Name:     "Shelter Five",
 			Email:    "shelterfive@email.com",
 			Password: "secretPassword",
-			Type:     entity.Shelter,
 			Phone:    "123456785",
 			Photo:    "https://go.dev/blog/gopher/header.jpg",
 			City:     "São Paulo",
