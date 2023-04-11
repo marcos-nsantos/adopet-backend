@@ -14,7 +14,7 @@ import (
 // CreateTutor handles request to create a new tutor
 //
 //	@Summary	Create a new tutor
-//	@Tags		tutor
+//	@Tags		tutors
 //	@Accept		json
 //	@Produce	json
 //	@Param		tutor	body		schemas.TutorCreationRequest	true	"User data"

@@ -674,7 +674,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tutor"
+                    "tutors"
                 ],
                 "summary": "Create a new tutor",
                 "parameters": [
