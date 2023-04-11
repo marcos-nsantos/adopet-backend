@@ -1,12 +1,12 @@
 package tutorhandler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 )
 
 // DeleteTutor handles request to delete a tutor by id
@@ -27,13 +27,12 @@ func DeleteTutor(c *gin.Context) {
 		return
 	}
 
-	if _, err = database.GetTutorByID(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "tutor not found"})
-		return
-	}
-
 	if err = database.DeleteTutor(id); err != nil {
-		log.Println("error deleting tutor", err)
+		if err == entity.ErrTutorNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "tutor not found"})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error deleting tutor"})
 		return
 	}

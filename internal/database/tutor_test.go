@@ -3,6 +3,7 @@ package database
 import (
 	"testing"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -66,6 +67,7 @@ func TestGetTutorByID(t *testing.T) {
 	t.Run("should return error when tutor not found", func(t *testing.T) {
 		_, err := GetTutorByID(999)
 		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrTutorNotFound)
 	})
 }
 
@@ -121,6 +123,13 @@ func TestUpdateTutor(t *testing.T) {
 		assert.Equal(t, tutorCreated.Name, result.Name)
 		assert.Equal(t, tutorCreated.Email, result.Email)
 	})
+
+	t.Run("should return error when tutor is not found", func(t *testing.T) {
+		tutorCreated.ID = 999
+		err := UpdateTutor(&tutorCreated)
+		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrTutorNotFound)
+	})
 }
 
 func TestDeleteTutor(t *testing.T) {
@@ -141,6 +150,12 @@ func TestDeleteTutor(t *testing.T) {
 
 		_, err = GetTutorByID(tutorCreated.ID)
 		assert.Error(t, err)
+	})
+
+	t.Run("should return error when tutor is not found", func(t *testing.T) {
+		err := DeleteTutor(999)
+		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrTutorNotFound)
 	})
 }
 

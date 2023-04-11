@@ -1,6 +1,9 @@
 package database
 
-import "github.com/marcos-nsantos/adopet-backend/internal/entity"
+import (
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
+	"gorm.io/gorm"
+)
 
 func CreateTutor(tutor entity.Tutor) (entity.Tutor, error) {
 	result := DB.Create(&tutor)
@@ -9,7 +12,12 @@ func CreateTutor(tutor entity.Tutor) (entity.Tutor, error) {
 
 func GetTutorByID(id uint64) (entity.Tutor, error) {
 	var tutor entity.Tutor
+
 	result := DB.Select("id", "name", "email", "phone", "photo", "city", "about").First(&tutor, id)
+	if result.Error == gorm.ErrRecordNotFound {
+		return tutor, entity.ErrTutorNotFound
+	}
+
 	return tutor, result.Error
 }
 
@@ -22,15 +30,26 @@ func GetAllTutors(page, limit int) ([]entity.Tutor, int, error) {
 	offset := (page - 1) * limit
 	result := DB.Select("id", "name", "email", "phone", "photo", "city", "about").
 		Limit(limit).Offset(offset).Find(&tutors)
+
 	return tutors, int(total), result.Error
 }
 
 func UpdateTutor(tutor *entity.Tutor) error {
-	return DB.Model(&tutor).Omit("id", "password").Updates(tutor).Error
+	result := DB.Model(&tutor).Omit("id", "password").Updates(tutor)
+	if result.RowsAffected == 0 {
+		return entity.ErrTutorNotFound
+	}
+
+	return result.Error
 }
 
 func DeleteTutor(id uint64) error {
-	return DB.Delete(&entity.Tutor{}, id).Error
+	result := DB.Delete(&entity.Tutor{}, id)
+	if result.RowsAffected == 0 {
+		return entity.ErrTutorNotFound
+	}
+
+	return result.Error
 }
 
 func GetIDAndPasswordByEmailFromTutor(email string) (uint64, string, error) {

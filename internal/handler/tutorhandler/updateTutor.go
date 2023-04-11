@@ -1,10 +1,10 @@
 package tutorhandler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 
 	"github.com/gin-gonic/gin"
@@ -39,16 +39,15 @@ func UpdateTutor(c *gin.Context) {
 		return
 	}
 
-	if _, err = database.GetTutorByID(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "tutor not found"})
-		return
-	}
-
 	tutor := req.ToEntity()
 	tutor.ID = id
 
 	if err = database.UpdateTutor(&tutor); err != nil {
-		log.Println("error updating tutor", err)
+		if err == entity.ErrTutorNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "tutor not found"})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error updating tutor"})
 		return
 	}
