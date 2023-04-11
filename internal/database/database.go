@@ -15,12 +15,15 @@ import (
 var DB *gorm.DB
 
 func Init() {
-	databaseURL := os.Getenv("DATABASE_URL")
+	var err error
 	var count uint8
+	databaseURL := os.Getenv("DATABASE_URL")
 
 	for {
-		var err error
-		DB, err = gorm.Open(postgres.Open(databaseURL), &gorm.Config{})
+		DB, err = gorm.Open(postgres.Open(databaseURL), &gorm.Config{
+			SkipDefaultTransaction: true,
+		})
+
 		if err != nil {
 			fmt.Println("Failed to connect to database")
 			fmt.Println("Retrying in 5 seconds")
