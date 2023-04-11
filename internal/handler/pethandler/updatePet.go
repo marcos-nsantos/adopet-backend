@@ -1,12 +1,12 @@
 package pethandler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
@@ -38,16 +38,15 @@ func UpdatePet(c *gin.Context) {
 		return
 	}
 
-	if _, err = database.GetPetByID(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "pet not found"})
-		return
-	}
-
 	pet := req.ToEntity()
 	pet.ID = id
 
 	if err = database.UpdatePet(pet); err != nil {
-		log.Println("error to update pet", err)
+		if err == entity.ErrPetNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "pet not found"})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error to update pet"})
 		return
 	}

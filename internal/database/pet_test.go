@@ -71,12 +71,14 @@ func TestGetPetByID(t *testing.T) {
 	t.Run("should return error when pet is not found", func(t *testing.T) {
 		_, err := GetPetByID(0)
 		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrPetNotFound)
 	})
 
 	t.Run("should return error when pet is deleted", func(t *testing.T) {
 		DB.Delete(&result)
 		_, err := GetPetByID(result.ID)
 		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrPetNotFound)
 	})
 
 	t.Run("should not return a pet it is adopted", func(t *testing.T) {
@@ -141,6 +143,13 @@ func TestUpdatePet(t *testing.T) {
 
 		assert.Equal(t, result.Name, pet.Name)
 	})
+
+	t.Run("should return error when pet is not found", func(t *testing.T) {
+		result.ID = 999
+		err = UpdatePet(result)
+		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrPetNotFound)
+	})
 }
 
 func TestUpdateIsAdoptedPet(t *testing.T) {
@@ -162,6 +171,13 @@ func TestUpdateIsAdoptedPet(t *testing.T) {
 		pet := entity.Pet{ID: result.ID, IsAdopted: true}
 		err := UpdateIsAdoptedPet(pet)
 		assert.NoError(t, err)
+	})
+
+	t.Run("should return error when pet is not found", func(t *testing.T) {
+		pet := entity.Pet{ID: 999, IsAdopted: true}
+		err := UpdateIsAdoptedPet(pet)
+		assert.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrPetNotFound)
 	})
 }
 
@@ -186,5 +202,11 @@ func TestDeletePet(t *testing.T) {
 
 		_, err = GetPetByID(result.ID)
 		require.Error(t, err)
+	})
+
+	t.Run("should return error when pet is not found", func(t *testing.T) {
+		err := DeletePet(999)
+		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrPetNotFound)
 	})
 }

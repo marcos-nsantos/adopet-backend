@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 )
 
 // DeletePet handles request to delete a pet
@@ -26,12 +27,12 @@ func DeletePet(c *gin.Context) {
 		return
 	}
 
-	if _, err := database.GetPetByID(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "pet not found"})
-		return
-	}
+	if err = database.DeletePet(id); err != nil {
+		if err == entity.ErrPetNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "pet not found"})
+			return
+		}
 
-	if err := database.DeletePet(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error deleting a pet"})
 		return
 	}

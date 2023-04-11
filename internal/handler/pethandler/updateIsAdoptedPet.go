@@ -38,13 +38,13 @@ func UpdateIsAdoptedPet(c *gin.Context) {
 		return
 	}
 
-	if _, err := database.GetPetByID(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "pet not found"})
-		return
-	}
-
 	pet := entity.Pet{ID: id, IsAdopted: req.IsAdopted}
 	if err = database.UpdateIsAdoptedPet(pet); err != nil {
+		if err == entity.ErrPetNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "pet not found"})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error to update pet"})
 		return
 	}
