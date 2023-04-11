@@ -29,11 +29,16 @@ func TestUpdateIsAdoptedPet(t *testing.T) {
 		database.DropTables()
 	})
 
+	shelter := mock.Shelters()[0]
+	shelter, err := database.CreateShelter(shelter)
+	require.NoError(t, err)
+
 	tutor := mock.Tutors()[0]
-	tutor, err := database.CreateTutor(tutor)
+	tutor, err = database.CreateTutor(tutor)
 	require.NoError(t, err)
 
 	pet := mock.Pet()[0]
+	pet.ShelterID = shelter.ID
 	petCreated, err := database.CreatePet(pet)
 	require.NoError(t, err)
 
