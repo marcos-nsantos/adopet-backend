@@ -13,13 +13,7 @@ import (
 // @name						Authorization
 // @description				Type "Bearer" followed by a space and JWT token
 func main() {
-	environment := os.Getenv("GIN_MODE")
-	if environment == "release" {
-		database.InitGoogleCloudSQL()
-	} else {
-		database.Init()
-	}
-
+	database.Init()
 	database.Migrate()
 
 	port := os.Getenv("PORT")

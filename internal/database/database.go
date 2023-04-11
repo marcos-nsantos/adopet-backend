@@ -38,19 +38,6 @@ func Init() {
 	}
 }
 
-func InitGoogleCloudSQL() {
-	var err error
-	databaseURL := fmt.Sprintf("user=%s password=%s database=%s host=%s",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("INSTANCE_UNIX_SOCKET"))
-	DB, err = gorm.Open(postgres.Open(databaseURL), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
 func Migrate() {
 	DB.AutoMigrate(&entity.Tutor{}, &entity.Shelter{}, &entity.Pet{}, &entity.Adoption{})
 }
