@@ -6,7 +6,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/glebarez/sqlite"
 	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -47,14 +46,6 @@ func InitGoogleCloudSQL() {
 		os.Getenv("DB_NAME"),
 		os.Getenv("INSTANCE_UNIX_SOCKET"))
 	DB, err = gorm.Open(postgres.Open(databaseURL), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func InitTest() {
-	var err error
-	DB, err = gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}

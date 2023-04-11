@@ -21,7 +21,7 @@ import (
 )
 
 func TestUpdateTutor(t *testing.T) {
-	database.InitTest()
+	database.Init()
 	database.Migrate()
 	gin.SetMode(gin.TestMode)
 	r := router.SetupRoutes()

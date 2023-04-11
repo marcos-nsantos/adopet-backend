@@ -14,13 +14,15 @@ tasks:
     cmds:
       - docker-compose up -d --build db
       - go test -v ./internal/database/...
-      - docker-compose down
+      - docker-compose down --rmi all
     env:
       DATABASE_URL: "{{.DATABASE_URL}}"
 
   e2e-test:
     cmds:
+      - docker-compose up -d --build db
       - go test -v ./e2e/...
+      - docker-compose down --rmi all
 
   generate-doc:
     cmds:
