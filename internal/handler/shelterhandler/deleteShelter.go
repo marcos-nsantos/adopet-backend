@@ -1,12 +1,12 @@
 package shelterhandler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 )
 
 // DeleteShelter handles request to delete a shelter
@@ -27,13 +27,12 @@ func DeleteShelter(c *gin.Context) {
 		return
 	}
 
-	if _, err = database.GetShelterByID(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "shelter not found"})
-		return
-	}
-
 	if err = database.DeleteShelter(id); err != nil {
-		log.Println("error deleting shelter", err)
+		if err == entity.ErrShelterNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "shelter not found"})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error deleting shelter"})
 		return
 	}

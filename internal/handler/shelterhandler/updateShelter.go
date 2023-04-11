@@ -1,12 +1,12 @@
 package shelterhandler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/marcos-nsantos/adopet-backend/internal/database"
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/schemas"
 )
 
@@ -37,16 +37,15 @@ func UpdateShelter(c *gin.Context) {
 		return
 	}
 
-	if _, err = database.GetShelterByID(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "shelter not found"})
-		return
-	}
-
 	shelter := req.ToEntity()
 	shelter.ID = id
 
 	if err = database.UpdateShelter(&shelter); err != nil {
-		log.Println("error updating shelter", err)
+		if err == entity.ErrShelterNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "shelter not found"})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error updating shelter"})
 		return
 	}

@@ -3,6 +3,7 @@ package database
 import (
 	"testing"
 
+	"github.com/marcos-nsantos/adopet-backend/internal/entity"
 	"github.com/marcos-nsantos/adopet-backend/internal/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -62,6 +63,7 @@ func TestGetShelterByID(t *testing.T) {
 	t.Run("should return error when shelter is not found", func(t *testing.T) {
 		_, err := GetShelterByID(999)
 		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrShelterNotFound)
 	})
 }
 
@@ -119,6 +121,13 @@ func TestUpdateShelter(t *testing.T) {
 		assert.Equal(t, shelterCreated.Name, result.Name)
 		assert.Equal(t, shelterCreated.Email, result.Email)
 	})
+
+	t.Run("should return error when shelter is not found", func(t *testing.T) {
+		shelterCreated.ID = 999
+		err := UpdateShelter(&shelterCreated)
+		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrShelterNotFound)
+	})
 }
 
 func TestDeleteShelter(t *testing.T) {
@@ -139,6 +148,12 @@ func TestDeleteShelter(t *testing.T) {
 
 		_, err = GetShelterByID(shelterCreated.ID)
 		assert.Error(t, err)
+	})
+
+	t.Run("should return error when shelter is not found", func(t *testing.T) {
+		err := DeleteShelter(999)
+		require.Error(t, err)
+		assert.ErrorIs(t, err, entity.ErrShelterNotFound)
 	})
 }
 
